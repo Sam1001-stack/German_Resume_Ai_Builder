@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import type { ResumeDocument, TemplateId } from "@/types/resume-builder";
 import { formatMonthYear } from "@/features/resume-builder/utils/format-date";
+import { resumePreviewLabel } from "@/lib/locale-utils";
 import { useLocale } from "next-intl";
 
 interface Props {
@@ -55,7 +56,7 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
             className="mb-2 text-xs font-bold uppercase tracking-widest"
             style={{ color: theme.primary }}
           >
-            {locale === "de" ? "Profil" : "Summary"}
+            {resumePreviewLabel(locale, "summary")}
           </h2>
           <p className="text-[11px] leading-relaxed text-zinc-700">{resume.summary}</p>
         </section>
@@ -67,7 +68,7 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
             className="mb-2 text-xs font-bold uppercase tracking-widest"
             style={{ color: theme.primary }}
           >
-            {locale === "de" ? "Fähigkeiten" : "Skills"}
+            {resumePreviewLabel(locale, "skills")}
           </h2>
           <p className="text-[11px] text-zinc-700">{resume.skills.join(" · ")}</p>
         </section>
@@ -79,7 +80,7 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
             className="mb-2 text-xs font-bold uppercase tracking-widest"
             style={{ color: theme.primary }}
           >
-            {locale === "de" ? "Berufserfahrung" : "Experience"}
+            {resumePreviewLabel(locale, "experience")}
           </h2>
           <div className="space-y-4">
             {resume.experience.map((exp) => (
@@ -95,7 +96,7 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
                   <p className="shrink-0 text-[10px] text-zinc-500">
                     {dateFmt(exp.startDate)}
                     {" – "}
-                    {exp.current ? (locale === "de" ? "heute" : "Present") : dateFmt(exp.endDate)}
+                    {exp.current ? resumePreviewLabel(locale, "present") : dateFmt(exp.endDate)}
                   </p>
                 </div>
                 {exp.bullets.length > 0 && (
@@ -117,7 +118,7 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
             className="mb-2 text-xs font-bold uppercase tracking-widest"
             style={{ color: theme.primary }}
           >
-            {locale === "de" ? "Ausbildung" : "Education"}
+            {resumePreviewLabel(locale, "education")}
           </h2>
           {resume.education.map((edu) => (
             <div key={edu.id} className="mb-2">
@@ -138,7 +139,7 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
             className="mb-2 text-xs font-bold uppercase tracking-widest"
             style={{ color: theme.primary }}
           >
-            {locale === "de" ? "Projekte" : "Projects"}
+            {resumePreviewLabel(locale, "projects")}
           </h2>
           {resume.projects.map((p) => (
             <div key={p.id} className="mb-2">
@@ -160,7 +161,7 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
                 className="mb-2 text-xs font-bold uppercase tracking-widest"
                 style={{ color: theme.primary }}
               >
-                {locale === "de" ? "Sprachen" : "Languages"}
+                {resumePreviewLabel(locale, "languages")}
               </h2>
               {resume.languages.map((l) => (
                 <p key={l.id} className="text-[10px]">
@@ -175,7 +176,7 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
                 className="mb-2 text-xs font-bold uppercase tracking-widest"
                 style={{ color: theme.primary }}
               >
-                {locale === "de" ? "Zertifikate" : "Certifications"}
+                {resumePreviewLabel(locale, "certifications")}
               </h2>
               {resume.certifications.map((c) => (
                 <p key={c.id} className="text-[10px]">

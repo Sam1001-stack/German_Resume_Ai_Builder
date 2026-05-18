@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { FeaturesSection } from "@/features/landing/features-section";
 import { createPageMetadata } from "@/lib/seo";
+import { ensureRequestLocale } from "@/lib/ensure-locale";
 import type { Locale } from "@/config/site";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -16,6 +17,8 @@ export async function generateMetadata({ params }: Props) {
   });
 }
 
-export default function FeaturesPage() {
+export default async function FeaturesPage({ params }: Props) {
+  const { locale } = await params;
+  ensureRequestLocale(locale);
   return <FeaturesSection />;
 }

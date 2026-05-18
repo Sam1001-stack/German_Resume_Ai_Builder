@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { ContentPage } from "@/components/shared/content-page";
 import { createPageMetadata } from "@/lib/seo";
+import { ensureRequestLocale } from "@/lib/ensure-locale";
 import type { Locale } from "@/config/site";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -16,7 +17,9 @@ export async function generateMetadata({ params }: Props) {
   });
 }
 
-export default async function TemplatesPage() {
+export default async function TemplatesPage({ params }: Props) {
+  const { locale } = await params;
+  ensureRequestLocale(locale);
   const t = await getTranslations("landing");
   return (
     <ContentPage title={t("templatesTitle")}>

@@ -37,16 +37,16 @@ export default function DashboardPage() {
             <CardContent>
               <ul className="space-y-4 border-l-2 border-violet-200 pl-4 dark:border-violet-900">
                 <li className="text-sm">
-                  <span className="font-medium">Resume created</span>
-                  <span className="block text-zinc-500">2 hours ago</span>
+                  <span className="font-medium">{t("activityResumeCreated")}</span>
+                  <span className="block text-zinc-500">{t("activity2HoursAgo")}</span>
                 </li>
                 <li className="text-sm">
-                  <span className="font-medium">Template saved</span>
-                  <span className="block text-zinc-500">Yesterday</span>
+                  <span className="font-medium">{t("activityTemplateSaved")}</span>
+                  <span className="block text-zinc-500">{t("activityYesterday")}</span>
                 </li>
                 <li className="text-sm">
-                  <span className="font-medium">PDF downloaded</span>
-                  <span className="block text-zinc-500">3 days ago</span>
+                  <span className="font-medium">{t("activityPdfDownloaded")}</span>
+                  <span className="block text-zinc-500">{t("activity3DaysAgo")}</span>
                 </li>
               </ul>
             </CardContent>

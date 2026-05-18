@@ -1,7 +1,7 @@
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { ResumeBuilderShell } from "@/features/resume-builder/resume-builder-shell";
 import { createPageMetadata } from "@/lib/seo";
-import { getTranslations } from "next-intl/server";
+import { ensureRequestLocale } from "@/lib/ensure-locale";
 import type { Locale } from "@/config/site";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -18,6 +18,6 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function BuilderPage({ params }: Props) {
   const { locale } = await params;
-  setRequestLocale(locale);
+  ensureRequestLocale(locale);
   return <ResumeBuilderShell />;
 }

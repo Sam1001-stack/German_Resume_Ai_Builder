@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { AuthLayout } from "@/components/auth/auth-layout";
 import { OtpForm } from "@/components/auth/otp-form";
 import { createPageMetadata } from "@/lib/seo";
+import { ensureRequestLocale } from "@/lib/ensure-locale";
 import type { Locale } from "@/config/site";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -17,7 +18,9 @@ export async function generateMetadata({ params }: Props) {
   });
 }
 
-export default async function VerifyOtpPage() {
+export default async function VerifyOtpPage({ params }: Props) {
+  const { locale } = await params;
+  ensureRequestLocale(locale);
   const t = await getTranslations("auth");
   return (
     <AuthLayout title={t("verifyOtp")} subtitle={t("verifySubtitle")}>

@@ -139,7 +139,13 @@
     "sessions": "Aktive Sitzungen",
     "emailNotifications": "E-Mail-Benachrichtigungen",
     "pushNotifications": "Push-Benachrichtigungen",
-    "marketingEmails": "Marketing-E-Mails"
+    "marketingEmails": "Marketing-E-Mails",
+    "activityResumeCreated": "Lebenslauf erstellt",
+    "activityTemplateSaved": "Vorlage gespeichert",
+    "activityPdfDownloaded": "PDF heruntergeladen",
+    "activity2HoursAgo": "vor 2 Stunden",
+    "activityYesterday": "Gestern",
+    "activity3DaysAgo": "vor 3 Tagen"
   },
   "common": {
     "loading": "Wird geladen...",
@@ -163,7 +169,12 @@
     "terms": "AGB",
     "cookies": "Cookie-Richtlinie",
     "faq": "FAQ",
-    "careers": "Karriere"
+    "careers": "Karriere",
+    "contentPlaceholder": "Inhalt folgt in Kürze. Diese Seite ist Teil der ResumeAI-Plattform.",
+    "planFree": "Kostenlos",
+    "planPro": "Pro",
+    "planEnterprise": "Enterprise",
+    "planCustom": "Individuell"
   },
   "contact": {
     "title": "Kontakt aufnehmen",

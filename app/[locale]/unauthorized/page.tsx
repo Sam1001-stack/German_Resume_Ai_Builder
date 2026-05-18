@@ -4,6 +4,7 @@ import { Link } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { PageTransition } from "@/components/shared/page-transition";
 import { createPageMetadata } from "@/lib/seo";
+import { ensureRequestLocale } from "@/lib/ensure-locale";
 import type { Locale } from "@/config/site";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -19,7 +20,9 @@ export async function generateMetadata({ params }: Props) {
   });
 }
 
-export default async function UnauthorizedPage() {
+export default async function UnauthorizedPage({ params }: Props) {
+  const { locale } = await params;
+  ensureRequestLocale(locale);
   const t = await getTranslations("auth");
   return (
     <PageTransition>

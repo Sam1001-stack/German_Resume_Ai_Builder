@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { siteConfig } from "@/config/site";
+import { siteConfig, locales } from "@/config/site";
 import type { Locale } from "@/config/site";
+import { openGraphLocaleMap } from "@/lib/locale-utils";
 
 interface PageSeoProps {
   locale: Locale;
@@ -22,17 +23,16 @@ export function createPageMetadata({
     description,
     alternates: {
       canonical: url,
-      languages: {
-        en: `${siteConfig.url}/en${path}`,
-        de: `${siteConfig.url}/de${path}`,
-      },
+      languages: Object.fromEntries(
+        locales.map((l) => [l, `${siteConfig.url}/${l}${path}`])
+      ),
     },
     openGraph: {
       title: `${title} | ${siteConfig.name}`,
       description,
       url,
       siteName: siteConfig.name,
-      locale: locale === "de" ? "de_DE" : "en_US",
+      locale: openGraphLocaleMap[locale],
       type: "website",
       images: [{ url: siteConfig.ogImage, width: 1200, height: 630, alt: siteConfig.name }],
     },

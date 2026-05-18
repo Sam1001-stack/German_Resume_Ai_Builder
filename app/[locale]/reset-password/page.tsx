@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { AuthLayout } from "@/components/auth/auth-layout";
 import { ResetPasswordForm } from "@/components/auth/reset-password-form";
 import { createPageMetadata } from "@/lib/seo";
+import { ensureRequestLocale } from "@/lib/ensure-locale";
 import type { Locale } from "@/config/site";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -17,7 +18,9 @@ export async function generateMetadata({ params }: Props) {
   });
 }
 
-export default async function ResetPasswordPage() {
+export default async function ResetPasswordPage({ params }: Props) {
+  const { locale } = await params;
+  ensureRequestLocale(locale);
   const t = await getTranslations("auth");
   return (
     <AuthLayout title={t("resetPassword")} subtitle={t("resetSubtitle")}>

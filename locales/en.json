@@ -139,7 +139,13 @@
     "sessions": "Active Sessions",
     "emailNotifications": "Email Notifications",
     "pushNotifications": "Push Notifications",
-    "marketingEmails": "Marketing Emails"
+    "marketingEmails": "Marketing Emails",
+    "activityResumeCreated": "Resume created",
+    "activityTemplateSaved": "Template saved",
+    "activityPdfDownloaded": "PDF downloaded",
+    "activity2HoursAgo": "2 hours ago",
+    "activityYesterday": "Yesterday",
+    "activity3DaysAgo": "3 days ago"
   },
   "common": {
     "loading": "Loading...",
@@ -163,7 +169,12 @@
     "terms": "Terms & Conditions",
     "cookies": "Cookie Policy",
     "faq": "FAQ",
-    "careers": "Careers"
+    "careers": "Careers",
+    "contentPlaceholder": "Content coming soon. This page is part of the ResumeAI platform.",
+    "planFree": "Free",
+    "planPro": "Pro",
+    "planEnterprise": "Enterprise",
+    "planCustom": "Custom"
   },
   "contact": {
     "title": "Get in touch",
