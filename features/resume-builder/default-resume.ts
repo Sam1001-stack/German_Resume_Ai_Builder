@@ -5,9 +5,16 @@ export function createEmptyResume(id?: string): ResumeDocument {
   return {
     id: resumeId,
     title: "Untitled Resume",
+    resumeType: "professional",
     templateId: "german-ats",
     theme: { primary: "#4f46e5", accent: "#6366f1" },
     updatedAt: new Date().toISOString(),
+    werkstudent: {
+      visaStatus: "",
+      taxId: "",
+      availability: "",
+      universityEnrollment: "",
+    },
     personal: {
       firstName: "",
       lastName: "",
@@ -32,9 +39,16 @@ export function createEmptyResume(id?: string): ResumeDocument {
 export const DEMO_RESUME: ResumeDocument = {
   id: "demo-resume",
   title: "Software Engineer — Lebenslauf",
+  resumeType: "professional",
   templateId: "german-ats",
   theme: { primary: "#312e81", accent: "#4f46e5" },
   updatedAt: new Date().toISOString(),
+  werkstudent: {
+    visaStatus: "",
+    taxId: "",
+    availability: "20 hours/week",
+    universityEnrollment: "",
+  },
   personal: {
     firstName: "Max",
     lastName: "Müller",

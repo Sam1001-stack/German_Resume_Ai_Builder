@@ -7,7 +7,7 @@ import { Eye, PanelLeftClose } from "lucide-react";
 import { BuilderToolbar } from "./components/builder-toolbar";
 import { ResumeFormSections } from "./components/resume-form-sections";
 import { ResumeTemplateRenderer } from "./templates/resume-template-renderer";
-import { AiSuggestionsPanel } from "./components/ai-suggestions-panel";
+import { AtsAnalyzerPanel } from "./components/ats-analyzer-panel";
 import { useResumeStore } from "@/store/resume-store";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 import { Logo } from "@/components/shared/logo";
@@ -78,7 +78,7 @@ export function ResumeBuilderShell() {
           </div>
         </div>
 
-        <AiSuggestionsPanel />
+        <AtsAnalyzerPanel />
       </div>
 
       <AnimatePresence>

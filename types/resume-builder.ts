@@ -1,9 +1,18 @@
+export type ResumeType = "professional" | "werkstudent";
+
 export type TemplateId =
   | "german-ats"
   | "minimal"
   | "corporate"
   | "creative"
   | "startup";
+
+export interface WerkstudentInfo {
+  visaStatus: string;
+  taxId: string;
+  availability: string;
+  universityEnrollment: string;
+}
 
 export interface ResumeTheme {
   primary: string;
@@ -74,9 +83,11 @@ export interface SocialLink {
 export interface ResumeDocument {
   id: string;
   title: string;
+  resumeType: ResumeType;
   templateId: TemplateId;
   theme: ResumeTheme;
   updatedAt: string;
+  werkstudent: WerkstudentInfo;
   personal: PersonalInfo;
   summary: string;
   skills: string[];

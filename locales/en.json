@@ -234,7 +234,8 @@
       "projects": "Projects",
       "certifications": "Certifications",
       "languages": "Languages",
-      "social": "Social Links"
+      "social": "Social Links",
+      "werkstudent": "Werkstudent Details"
     },
     "fields": {
       "firstName": "First name",
@@ -255,7 +256,15 @@
       "projectName": "Project name",
       "certName": "Certification",
       "issuer": "Issuer",
-      "language": "Language"
+      "language": "Language",
+      "visaStatus": "Visa / work permit status",
+      "visaPlaceholder": "e.g. Student residence permit — eligible for Werkstudent",
+      "taxId": "Tax ID (Steuer-ID)",
+      "taxPlaceholder": "Your German tax identification number",
+      "availability": "Weekly availability",
+      "availabilityPlaceholder": "e.g. Available 20 hours/week for Werkstudent role",
+      "universityEnrollment": "University enrollment",
+      "enrollmentPlaceholder": "e.g. BSBI Berlin — BSc Computer Science (2024–Present)"
     },
     "ai": {
       "improve": "Improve with AI",

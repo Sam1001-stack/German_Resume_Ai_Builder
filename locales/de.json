@@ -234,7 +234,8 @@
       "projects": "Projekte",
       "certifications": "Zertifikate",
       "languages": "Sprachen",
-      "social": "Social Links"
+      "social": "Social Links",
+      "werkstudent": "Werkstudent-Details"
     },
     "fields": {
       "firstName": "Vorname",
@@ -255,7 +256,15 @@
       "projectName": "Projektname",
       "certName": "Zertifikat",
       "issuer": "Aussteller",
-      "language": "Sprache"
+      "language": "Sprache",
+      "visaStatus": "Visum / Arbeitserlaubnis",
+      "visaPlaceholder": "z. B. Aufenthaltserlaubnis — Werkstudent berechtigt",
+      "taxId": "Steuer-ID",
+      "taxPlaceholder": "Ihre deutsche Steueridentifikationsnummer",
+      "availability": "Wochenverfügbarkeit",
+      "availabilityPlaceholder": "z. B. 20 Stunden/Woche für Werkstudent verfügbar",
+      "universityEnrollment": "Hochschuleinschreibung",
+      "enrollmentPlaceholder": "z. B. BSBI Berlin — BSc Informatik (2024–heute)"
     },
     "ai": {
       "improve": "Mit KI verbessern",

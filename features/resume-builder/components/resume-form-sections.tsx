@@ -40,6 +40,8 @@ import {
 import { toast } from "sonner";
 import { useResumeHydrated } from "@/hooks/use-resume-hydrated";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ResumeTypeSelector } from "./resume-type-selector";
+import { WerkstudentFields } from "./werkstudent-fields";
 
 export function ResumeFormSections() {
   const t = useTranslations("builder");
@@ -106,6 +108,8 @@ export function ResumeFormSections() {
 
   return (
     <div className="space-y-4 pb-24">
+      <ResumeTypeSelector />
+      <WerkstudentFields />
       <SectionCard
         title={t("sections.personal")}
         icon={<User className="h-4 w-4" />}

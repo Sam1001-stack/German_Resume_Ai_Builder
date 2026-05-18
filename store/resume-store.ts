@@ -62,6 +62,7 @@ export const useResumeStore = create<ResumeStore>()(
         certifications: false,
         languages: false,
         social: false,
+        werkstudent: true,
       },
 
       setResume: (resume, pushHistory = true) =>
@@ -181,6 +182,8 @@ export const useResumeStore = create<ResumeStore>()(
             ...DEMO_RESUME,
             ...p.resume,
             personal: { ...DEMO_RESUME.personal, ...p.resume.personal },
+            werkstudent: { ...DEMO_RESUME.werkstudent, ...p.resume.werkstudent },
+            resumeType: p.resume.resumeType ?? DEMO_RESUME.resumeType,
           },
           savedResumes:
             p.savedResumes?.length ? p.savedResumes : current.savedResumes,
