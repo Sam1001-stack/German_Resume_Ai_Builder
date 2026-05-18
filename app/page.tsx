@@ -1,6 +1,9 @@
+"use client";
+
+import { useApiBaseUrl } from "@/lib/api";
+
 export default function Home() {
-  const apiUrl =
-    process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+  const apiUrl = useApiBaseUrl();
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-50 px-6 font-sans dark:bg-zinc-950">
