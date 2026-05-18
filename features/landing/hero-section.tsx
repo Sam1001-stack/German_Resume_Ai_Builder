@@ -47,7 +47,7 @@ export function HeroSection() {
           transition={{ delay: 0.3 }}
         >
           <Button size="lg" asChild>
-            <Link href="/register">
+            <Link href="/builder">
               {t("ctaPrimary")}
               <ArrowRight className="h-4 w-4" />
             </Link>

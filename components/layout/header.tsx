@@ -21,6 +21,7 @@ const MobileNav = dynamic(
 
 const navItems = [
   { href: "/", key: "home" as const },
+  { href: "/builder", key: "builder" as const },
   { href: "/features", key: "features" as const },
   { href: "/pricing", key: "pricing" as const },
   { href: "/templates", key: "templates" as const },

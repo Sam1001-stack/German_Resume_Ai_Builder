@@ -9,7 +9,7 @@ import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { SocialLinks } from "@/components/shared/social-links";
 
 interface MobileNavProps {
-  navItems: { href: string; key: "home" | "features" | "pricing" | "templates" | "contact" }[];
+  navItems: { href: string; key: "home" | "builder" | "features" | "pricing" | "templates" | "contact" }[];
   isActive: (href: string) => boolean;
   isAuthenticated: boolean;
   onClose: () => void;

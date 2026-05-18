@@ -5,18 +5,12 @@ import { PageTransition } from "@/components/shared/page-transition";
 import { StatsCards } from "@/components/profile/stats-cards";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/hooks/use-auth";
-import { FileText } from "lucide-react";
+import { DashboardResumes } from "@/features/resume-builder/components/dashboard-resumes";
 
 export default function DashboardPage() {
   const t = useTranslations("profile");
   const tNav = useTranslations("nav");
   const { user } = useAuth();
-
-  const recentResumes = [
-    { title: "Software Engineer CV", date: "2026-05-15" },
-    { title: "Lebenslauf — Marketing", date: "2026-05-10" },
-    { title: "Product Manager Resume", date: "2026-05-01" },
-  ];
 
   return (
     <PageTransition>
@@ -31,26 +25,11 @@ export default function DashboardPage() {
           <StatsCards />
         </div>
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("recentResumes")}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {recentResumes.map((r) => (
-                <div
-                  key={r.title}
-                  className="flex items-center gap-3 rounded-lg border border-zinc-200 p-3 dark:border-zinc-800"
-                >
-                  <FileText className="h-5 w-5 text-violet-600" />
-                  <div>
-                    <p className="font-medium">{r.title}</p>
-                    <p className="text-xs text-zinc-500">{r.date}</p>
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+        <div className="mt-10">
+          <DashboardResumes />
+        </div>
+
+        <div className="mt-10">
           <Card>
             <CardHeader>
               <CardTitle>{t("activity")}</CardTitle>
