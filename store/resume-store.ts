@@ -74,9 +74,15 @@ export const useResumeStore = create<ResumeStore>()(
 
       updateResume: (patch) => {
         const state = get();
+        const base = state.resume;
         const next = {
-          ...state.resume,
+          ...base,
           ...patch,
+          resumeType: patch.resumeType ?? base.resumeType ?? "professional",
+          werkstudent: {
+            ...base.werkstudent,
+            ...(patch.werkstudent ?? {}),
+          },
           updatedAt: new Date().toISOString(),
         };
         set({
@@ -197,6 +203,12 @@ export const useResumeStore = create<ResumeStore>()(
           !state.resume.summary;
         if (empty) {
           state.resume = { ...DEMO_RESUME, id: state.resume.id || crypto.randomUUID() };
+        }
+        if (!state.resume.resumeType) {
+          state.resume.resumeType = "professional";
+        }
+        if (!state.resume.werkstudent) {
+          state.resume.werkstudent = { ...DEMO_RESUME.werkstudent };
         }
       },
     }

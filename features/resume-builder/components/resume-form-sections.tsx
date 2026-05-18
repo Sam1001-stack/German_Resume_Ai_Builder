@@ -108,7 +108,7 @@ export function ResumeFormSections() {
 
   return (
     <div className="space-y-4 pb-24">
-      <ResumeTypeSelector />
+      <ResumeTypeSelector instanceId="form" />
       <WerkstudentFields />
       <SectionCard
         title={t("sections.personal")}

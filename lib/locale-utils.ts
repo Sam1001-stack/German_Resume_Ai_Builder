@@ -34,6 +34,13 @@ const resumePreviewLabels = {
   languages: { en: "Languages", de: "Sprachen" },
   certifications: { en: "Certifications", de: "Zertifikate" },
   present: { en: "Present", de: "heute" },
+  resumeTypeProfessional: { en: "Professional Resume", de: "Professioneller Lebenslauf" },
+  resumeTypeWerkstudent: { en: "Werkstudent Resume", de: "Werkstudent-Lebenslauf" },
+  werkstudent: { en: "Werkstudent Information", de: "Werkstudent-Angaben" },
+  visaStatus: { en: "Visa / Work Permit", de: "Visum / Arbeitserlaubnis" },
+  taxId: { en: "Tax ID (Steuer-ID)", de: "Steuer-ID" },
+  availability: { en: "Availability", de: "Verfügbarkeit" },
+  enrollment: { en: "University Enrollment", de: "Hochschuleinschreibung" },
 } as const;
 
 export type ResumePreviewLabelKey = keyof typeof resumePreviewLabels;

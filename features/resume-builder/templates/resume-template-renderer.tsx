@@ -13,8 +13,20 @@ interface Props {
 
 export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
   const locale = useLocale();
-  const { personal, theme, templateId } = resume;
+  const { personal, theme, templateId, werkstudent } = resume;
+  const resumeType = resume.resumeType ?? "professional";
   const fullName = `${personal.firstName} ${personal.lastName}`.trim();
+  const typeLabel =
+    resumeType === "werkstudent"
+      ? resumePreviewLabel(locale, "resumeTypeWerkstudent")
+      : resumePreviewLabel(locale, "resumeTypeProfessional");
+
+  const werkstudentRows = [
+    { label: resumePreviewLabel(locale, "visaStatus"), value: werkstudent?.visaStatus ?? "" },
+    { label: resumePreviewLabel(locale, "taxId"), value: werkstudent?.taxId ?? "" },
+    { label: resumePreviewLabel(locale, "availability"), value: werkstudent?.availability ?? "" },
+    { label: resumePreviewLabel(locale, "enrollment"), value: werkstudent?.universityEnrollment ?? "" },
+  ];
 
   const baseClass =
     "mx-auto bg-white text-zinc-900 shadow-2xl print:shadow-none";
@@ -39,6 +51,12 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
         {personal.headline && (
           <p className="mt-1 text-sm font-medium text-zinc-600">{personal.headline}</p>
         )}
+        <p
+          className="mt-2 inline-block rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+          style={{ backgroundColor: `${theme.primary}18`, color: theme.primary }}
+        >
+          {typeLabel}
+        </p>
         <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-zinc-600">
           {personal.email && <span>{personal.email}</span>}
           {personal.phone && <span>{personal.phone}</span>}
@@ -49,6 +67,27 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
           )}
         </div>
       </header>
+
+      {resumeType === "werkstudent" && (
+        <section className="mt-4">
+          <h2
+            className="mb-2 text-xs font-bold uppercase tracking-widest"
+            style={{ color: theme.primary }}
+          >
+            {resumePreviewLabel(locale, "werkstudent")}
+          </h2>
+          <dl className="space-y-1 text-[10px] text-zinc-700">
+            {werkstudentRows.map((row) => (
+              <div key={row.label} className="flex gap-2">
+                <dt className="min-w-[7rem] shrink-0 font-semibold text-zinc-600">{row.label}:</dt>
+                <dd className={row.value.trim() ? "" : "text-zinc-400 italic"}>
+                  {row.value.trim() || "—"}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      )}
 
       {resume.summary && (
         <section className="mt-5">
@@ -212,7 +251,7 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
 
   return (
     <motion.article
-      key={resume.updatedAt}
+      key={`${resume.id}-${resumeType}-${resume.updatedAt}`}
       initial={{ opacity: 0.85 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.2 }}

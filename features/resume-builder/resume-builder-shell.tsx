@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Eye, PanelLeftClose } from "lucide-react";
 import { BuilderToolbar } from "./components/builder-toolbar";
 import { ResumeFormSections } from "./components/resume-form-sections";
+import { ResumeTypeSelector } from "./components/resume-type-selector";
 import { ResumeTemplateRenderer } from "./templates/resume-template-renderer";
 import { AtsAnalyzerPanel } from "./components/ats-analyzer-panel";
 import { useResumeStore } from "@/store/resume-store";
@@ -67,8 +68,11 @@ export function ResumeBuilderShell() {
           </div>
 
           <div className="hidden flex-1 flex-col overflow-hidden bg-zinc-100/50 dark:bg-zinc-900/50 lg:flex">
-            <div className="border-b border-zinc-200/80 px-4 py-2 dark:border-zinc-800/80">
-              <span className="text-sm font-medium text-zinc-600">{t("livePreview")}</span>
+            <div className="border-b border-zinc-200/80 px-4 py-3 dark:border-zinc-800/80">
+              <span className="mb-2 block text-sm font-medium text-zinc-600 dark:text-zinc-400">
+                {t("livePreview")}
+              </span>
+              <ResumeTypeSelector instanceId="preview" variant="compact" />
             </div>
             <div className="flex-1 overflow-auto p-6">
               <div className="mx-auto origin-top scale-[0.55] xl:scale-[0.65] 2xl:scale-75">
