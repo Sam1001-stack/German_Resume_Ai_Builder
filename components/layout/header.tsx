@@ -19,16 +19,31 @@ const MobileNav = dynamic(
   { ssr: false }
 );
 
-const navItems = [
-  { href: "/", key: "home" as const },
-  { href: "/builder", key: "builder" as const },
-  { href: "/features", key: "features" as const },
-  { href: "/pricing", key: "pricing" as const },
-  { href: "/templates", key: "templates" as const },
-  { href: "/contact", key: "contact" as const },
-];
+
 
 export function Header() {
+  const token = JSON.parse(localStorage.getItem("resumeai-auth") || "{}")?.state?.token;
+
+  
+
+
+  const navItems = [
+    { href: "/", key: "home" as const },
+  
+    { href: "/features", key: "features" as const },
+    { href: "/pricing", key: "pricing" as const },
+   
+  ];
+
+  if(token){
+    navItems.push(
+      { href: "/builder", key: "builder" as const },
+      { href: "/templates", key: "templates" as const },
+      { href: "/contact", key: "contact" as const },
+    );
+  }
+
+
   const t = useTranslations("nav");
   const pathname = usePathname();
   const { isAuthenticated } = useAuth();

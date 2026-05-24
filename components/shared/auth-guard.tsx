@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useAuthHydrated } from "@/hooks/use-auth-hydrated";
 import { AuthLoading } from "@/components/auth/auth-loading";
 import { authService } from "@/services/auth-service";
-import { clearAuthCookie, getAuthCookieToken } from "@/lib/auth-cookie";
+import { clearAuthCookie, getAuthCookieToken, setAuthCookie } from "@/lib/auth-cookie";
 import { useAuthStore } from "@/store/auth-store";
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
@@ -20,15 +20,22 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     if (!hydrated || isAuthenticated || restoreAttempted.current) return;
 
     const cookieToken = getAuthCookieToken();
-    if (!cookieToken) return;
+    const storeToken = useAuthStore.getState().token;
+    const token = cookieToken ?? storeToken;
+
+    if (!token) return;
+
+    if (!cookieToken && storeToken) {
+      setAuthCookie(storeToken, true);
+    }
 
     restoreAttempted.current = true;
     setRestoring(true);
-    useAuthStore.getState().setToken(cookieToken);
+    useAuthStore.getState().setToken(token);
 
     authService
       .getProfile()
-      .then((user) => login(user, cookieToken))
+      .then((user) => login(user, token))
       .catch(() => {
         clearAuthCookie();
         useAuthStore.getState().logout();
@@ -38,7 +45,9 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!hydrated || restoring) return;
-    if (!isAuthenticated && !getAuthCookieToken()) {
+    const hasSession =
+      isAuthenticated || Boolean(getAuthCookieToken()) || Boolean(useAuthStore.getState().token);
+    if (!hasSession) {
       router.replace("/sign-in");
     }
   }, [hydrated, isAuthenticated, restoring, router]);

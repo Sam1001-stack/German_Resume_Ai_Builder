@@ -162,7 +162,8 @@
     "back": "Zurück",
     "next": "Weiter",
     "submit": "Absenden",
-    "search": "Suchen"
+    "search": "Suchen",
+    "retry": "Erneut versuchen"
   },
   "pages": {
     "features": "Funktionen",
@@ -198,6 +199,13 @@
     "jobDescriptionRequired": "Bitte zuerst eine Stellenbeschreibung einfügen.",
     "searchWithAiSuccess": "KI hat Profil und Fähigkeiten aktualisiert.",
     "searchWithAiError": "Stellenbeschreibung konnte nicht analysiert werden. Bitte erneut versuchen.",
+    "loginToSaveResume": "Melden Sie sich an, um Lebensläufe zu speichern und als PDF herunterzuladen.",
+    "resumeSaved": "Lebenslauf in Ihrem Konto gespeichert.",
+    "resumeSaveFailed": "Lebenslauf konnte nicht gespeichert werden. Bitte erneut versuchen.",
+    "pdfDownloaded": "PDF erfolgreich heruntergeladen.",
+    "pdfDownloadFailed": "PDF konnte nicht heruntergeladen werden. Bitte erneut versuchen.",
+    "loadingResumes": "Lebensläufe werden geladen…",
+    "savedToCloud": "Gespeichert",
     "preview": "Vorschau",
     "aiSuggestions": "KI-Empfehlungen",
     "atsScore": "ATS-Score",

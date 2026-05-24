@@ -98,6 +98,7 @@ export interface ResumeDocument {
   certifications: Certification[];
   languages: Language[];
   socialLinks: SocialLink[];
+  serverId?: string;
 }
 
 export type ResumeSectionKey =

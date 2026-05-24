@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { useResumeStore } from "@/store/resume-store";
 import { TEMPLATE_OPTIONS } from "@/features/resume-builder/constants";
+import { useResumeSaveActions } from "@/hooks/use-resume-save-actions";
 import { toast } from "sonner";
 
 export function BuilderToolbar() {
@@ -36,6 +37,7 @@ export function BuilderToolbar() {
   const canUndo = useResumeStore((s) => s.canUndo);
   const canRedo = useResumeStore((s) => s.canRedo);
   const saveToLibrary = useResumeStore((s) => s.saveToLibrary);
+  const { handleSave, handleDownloadPdf, isSaving, isDownloading } = useResumeSaveActions();
 
   const exportToast = (type: string) => toast.success(t("exportStarted", { type }));
 
@@ -77,14 +79,14 @@ export function BuilderToolbar() {
           <Button variant="ghost" size="icon" disabled={!canRedo()} onClick={redo} aria-label={t("redo")}>
             <Redo2 className="h-4 w-4" />
           </Button>
-          <Button variant="outline" size="sm" onClick={saveToLibrary}>
+          <Button variant="outline" size="sm" onClick={handleSave} loading={isSaving} disabled={isSaving}>
             <Save className="h-4 w-4" />
             {t("save")}
           </Button>
         </div>
 
         <div className="flex flex-wrap items-center gap-1 border-l border-zinc-200 pl-2 dark:border-zinc-800">
-          <Button variant="outline" size="sm" onClick={() => exportToast("PDF")}>
+          <Button variant="outline" size="sm" onClick={handleDownloadPdf} loading={isDownloading} disabled={isDownloading}>
             <Download className="h-4 w-4" />
             PDF
           </Button>

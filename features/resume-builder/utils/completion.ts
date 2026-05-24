@@ -13,17 +13,17 @@ export function calculateCompletion(resume: ResumeDocument): number {
     languages: 5,
   };
 
-  const { personal } = resume;
+  const { personal = {} as ResumeDocument["personal"] } = resume;
   if (personal.firstName && personal.lastName && personal.email) score += weights.personal * 0.6;
   if (personal.phone && personal.city) score += weights.personal * 0.4;
 
-  if (resume.summary.length > 50) score += weights.summary;
-  if (resume.skills.length >= 3) score += weights.skills;
-  if (resume.experience.length >= 1) score += weights.experience;
-  if (resume.education.length >= 1) score += weights.education;
-  if (resume.projects.length >= 1) score += weights.projects;
-  if (resume.certifications.length >= 1) score += weights.certifications;
-  if (resume.languages.length >= 1) score += weights.languages;
+  if ((resume.summary ?? "").length > 50) score += weights.summary;
+  if ((resume.skills ?? []).length >= 3) score += weights.skills;
+  if ((resume.experience ?? []).length >= 1) score += weights.experience;
+  if ((resume.education ?? []).length >= 1) score += weights.education;
+  if ((resume.projects ?? []).length >= 1) score += weights.projects;
+  if ((resume.certifications ?? []).length >= 1) score += weights.certifications;
+  if ((resume.languages ?? []).length >= 1) score += weights.languages;
 
   return Math.min(100, Math.round(score));
 }
