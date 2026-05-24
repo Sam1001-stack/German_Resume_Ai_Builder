@@ -278,6 +278,8 @@
       "visaPlaceholder": "e.g. Student residence permit — eligible for Werkstudent",
       "taxId": "Tax ID (Steuer-ID)",
       "taxPlaceholder": "Your German tax identification number",
+      "socialSecurityNo": "Social security no.",
+      "socialSecurityNoPlaceholder": "e.g. 12 345678 A 901",
       "availability": "Weekly availability",
       "availabilityPlaceholder": "e.g. Available 20 hours/week for Werkstudent role",
       "universityEnrollment": "University enrollment",

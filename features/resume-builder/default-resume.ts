@@ -12,6 +12,7 @@ export function createEmptyResume(id?: string): ResumeDocument {
     werkstudent: {
       visaStatus: "",
       taxId: "",
+      socialSecurityNo: "",
       availability: "",
       universityEnrollment: "",
     },
@@ -46,6 +47,7 @@ export const DEMO_RESUME: ResumeDocument = {
   werkstudent: {
     visaStatus: "",
     taxId: "",
+    socialSecurityNo: "",
     availability: "20 hours/week",
     universityEnrollment: "",
   },

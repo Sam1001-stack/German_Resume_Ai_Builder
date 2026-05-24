@@ -24,6 +24,7 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
   const werkstudentRows = [
     { label: resumePreviewLabel(locale, "visaStatus"), value: werkstudent?.visaStatus ?? "" },
     { label: resumePreviewLabel(locale, "taxId"), value: werkstudent?.taxId ?? "" },
+    { label: resumePreviewLabel(locale, "socialSecurityNo"), value: werkstudent?.socialSecurityNo ?? "" },
     { label: resumePreviewLabel(locale, "availability"), value: werkstudent?.availability ?? "" },
     { label: resumePreviewLabel(locale, "enrollment"), value: werkstudent?.universityEnrollment ?? "" },
   ];

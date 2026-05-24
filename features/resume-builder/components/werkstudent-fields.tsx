@@ -39,6 +39,12 @@ export function WerkstudentFields() {
           placeholder={t("fields.taxPlaceholder")}
         />
         <FloatingInput
+          label={t("fields.socialSecurityNo")}
+          value={resume.werkstudent.socialSecurityNo ?? ""}
+          onChange={(e) => update("socialSecurityNo", e.target.value)}
+          placeholder={t("fields.socialSecurityNoPlaceholder")}
+        />
+        <FloatingInput
           label={t("fields.availability")}
           value={resume.werkstudent.availability}
           onChange={(e) => update("availability", e.target.value)}

@@ -309,6 +309,7 @@ function analyzeWerkstudent(resume: ResumeDocument): SectionAnalysis {
   const w = resume.werkstudent ?? {
     visaStatus: "",
     taxId: "",
+    socialSecurityNo: "",
     availability: "",
     universityEnrollment: "",
   };
@@ -323,6 +324,11 @@ function analyzeWerkstudent(resume: ResumeDocument): SectionAnalysis {
     w.taxId.trim()
       ? check("tax", "pass", "checks.werkstudent.taxPass")
       : check("tax", "fail", "checks.werkstudent.taxFail", "checks.werkstudent.taxSuggest")
+  );
+  checks.push(
+    w.socialSecurityNo.trim()
+      ? check("socialSecurity", "pass", "checks.werkstudent.socialSecurityPass")
+      : check("socialSecurity", "fail", "checks.werkstudent.socialSecurityFail", "checks.werkstudent.socialSecuritySuggest")
   );
   checks.push(
     w.availability.trim()

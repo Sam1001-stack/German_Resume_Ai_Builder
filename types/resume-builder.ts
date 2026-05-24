@@ -10,6 +10,7 @@ export type TemplateId =
 export interface WerkstudentInfo {
   visaStatus: string;
   taxId: string;
+  socialSecurityNo: string;
   availability: string;
   universityEnrollment: string;
 }

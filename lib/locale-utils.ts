@@ -39,6 +39,7 @@ const resumePreviewLabels = {
   werkstudent: { en: "Werkstudent Information", de: "Werkstudent-Angaben" },
   visaStatus: { en: "Visa / Work Permit", de: "Visum / Arbeitserlaubnis" },
   taxId: { en: "Tax ID (Steuer-ID)", de: "Steuer-ID" },
+  socialSecurityNo: { en: "Social Security No.", de: "Sozialversicherungsnummer" },
   availability: { en: "Availability", de: "Verfügbarkeit" },
   enrollment: { en: "University Enrollment", de: "Hochschuleinschreibung" },
 } as const;

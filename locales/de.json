@@ -278,6 +278,8 @@
       "visaPlaceholder": "z. B. Aufenthaltserlaubnis — Werkstudent berechtigt",
       "taxId": "Steuer-ID",
       "taxPlaceholder": "Ihre deutsche Steueridentifikationsnummer",
+      "socialSecurityNo": "Sozialversicherungsnummer",
+      "socialSecurityNoPlaceholder": "z. B. 12 345678 A 901",
       "availability": "Wochenverfügbarkeit",
       "availabilityPlaceholder": "z. B. 20 Stunden/Woche für Werkstudent verfügbar",
       "universityEnrollment": "Hochschuleinschreibung",
