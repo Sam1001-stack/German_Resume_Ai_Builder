@@ -145,6 +145,12 @@ export function ResumeFormSections() {
             className="sm:col-span-2"
           />
           <FloatingInput
+            label={t("fields.address")}
+            value={resume.personal.address}
+            onChange={(e) => updatePersonal("address", e.target.value)}
+            className="sm:col-span-2"
+          />
+          <FloatingInput
             label={t("fields.city")}
             value={resume.personal.city}
             onChange={(e) => updatePersonal("city", e.target.value)}

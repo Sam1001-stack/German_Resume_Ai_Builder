@@ -253,6 +253,8 @@
       "email": "E-Mail",
       "phone": "Telefon",
       "headline": "Berufsbezeichnung",
+      "address": "Straße & Hausnummer",
+      "addressPlaceholder": "z. B. Musterstraße 12, 10115 Berlin",
       "city": "Stadt",
       "country": "Land",
       "summaryPlaceholder": "Schreiben Sie ein überzeugendes Berufsprofil…",

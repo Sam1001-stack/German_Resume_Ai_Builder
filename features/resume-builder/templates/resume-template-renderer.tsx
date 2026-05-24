@@ -57,14 +57,15 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
         >
           {typeLabel}
         </p>
-        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-zinc-600">
-          {personal.email && <span>{personal.email}</span>}
-          {personal.phone && <span>{personal.phone}</span>}
-          {(personal.city || personal.country) && (
-            <span>
-              {[personal.address, personal.city, personal.country].filter(Boolean).join(", ")}
-            </span>
-          )}
+        <div className="mt-2 flex flex-col gap-1 text-xs text-zinc-600">
+          <div className="flex flex-wrap gap-x-4 gap-y-1">
+            {personal.email && <span>{personal.email}</span>}
+            {personal.phone && <span>{personal.phone}</span>}
+          </div>
+          {<span>{[personal.address, personal.city, personal.country].filter(Boolean).join(", ")}</span>}
+          {/* {(personal.city || personal.country) && (
+            // <span>{[personal.city, personal.country].filter(Boolean).join(", ")}</span>
+          )} */}
         </div>
       </header>
 

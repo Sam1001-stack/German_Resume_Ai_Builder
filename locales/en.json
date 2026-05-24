@@ -253,6 +253,8 @@
       "email": "Email",
       "phone": "Phone",
       "headline": "Professional headline",
+      "address": "Street address",
+      "addressPlaceholder": "e.g. Musterstraße 12, 10115 Berlin",
       "city": "City",
       "country": "Country",
       "summaryPlaceholder": "Write a compelling professional summary…",
