@@ -3,6 +3,10 @@ import { persist } from "zustand/middleware";
 import type { ResumeDocument, TemplateId } from "@/types/resume-builder";
 import { createEmptyResume, DEMO_RESUME } from "@/features/resume-builder/default-resume";
 import { calculateCompletion } from "@/features/resume-builder/utils/completion";
+import {
+  buildPreviewResume,
+  getTemplatePreset,
+} from "@/features/resume-builder/template-presets";
 
 const MAX_HISTORY = 30;
 
@@ -20,6 +24,8 @@ interface ResumeStore {
   setResume: (resume: ResumeDocument, pushHistory?: boolean) => void;
   updateResume: (patch: Partial<ResumeDocument>) => void;
   setTemplate: (templateId: TemplateId) => void;
+  applyTemplate: (templateId: TemplateId) => void;
+  applyTemplateWithSample: (templateId: TemplateId) => void;
   setTheme: (theme: ResumeDocument["theme"]) => void;
   loadDemo: () => void;
   resetResume: () => void;
@@ -93,7 +99,23 @@ export const useResumeStore = create<ResumeStore>()(
         setTimeout(() => get().markSaved(), 800);
       },
 
-      setTemplate: (templateId) => get().updateResume({ templateId }),
+      setTemplate: (templateId) => {
+        const preset = getTemplatePreset(templateId);
+        get().updateResume({ templateId: preset.id, theme: preset.theme });
+      },
+      applyTemplate: (templateId) => {
+        const preset = getTemplatePreset(templateId);
+        get().updateResume({ templateId: preset.id, theme: preset.theme });
+      },
+      applyTemplateWithSample: (templateId) => {
+        const sample = buildPreviewResume(templateId);
+        get().setResume({
+          ...sample,
+          id: crypto.randomUUID(),
+          title: sample.title,
+          updatedAt: new Date().toISOString(),
+        });
+      },
       setTheme: (theme) => get().updateResume({ theme }),
 
       loadDemo: () => get().setResume({ ...DEMO_RESUME, id: crypto.randomUUID() }),

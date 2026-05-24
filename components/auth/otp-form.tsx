@@ -10,12 +10,21 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createOtpSchema, type OtpFormData } from "@/features/auth/validation";
 import { authService } from "@/services/auth-service";
+import { useAuthStore } from "@/store/auth-store";
+import {
+  getAuthFlow,
+  getAuthFlowEmail,
+  setResetToken,
+} from "@/lib/auth-flow";
 
 export function OtpForm() {
   const t = useTranslations("auth");
   const tv = useTranslations("validation");
   const router = useRouter();
+  const setUser = useAuthStore((s) => s.setUser);
   const schema = createOtpSchema((key) => tv(key));
+  const purpose = getAuthFlow();
+  const flowEmail = getAuthFlowEmail();
 
   const {
     register,
@@ -24,14 +33,42 @@ export function OtpForm() {
   } = useForm<OtpFormData>({ resolver: zodResolver(schema) });
 
   const onSubmit = async (data: OtpFormData) => {
-    await authService.verifyOtp(data.otp);
-    toast.success(t("verifyCode"));
-    router.push("/reset-password");
+    try {
+      const result = await authService.verifyOtp(
+        data.otp,
+        purpose,
+        purpose === "password_reset" ? flowEmail : undefined
+      );
+
+      if (purpose === "email_verification") {
+        if (result.user) setUser(result.user);
+        toast.success(t("verifyCode"));
+        router.push("/email-verified");
+        return;
+      }
+
+      if (result.resetToken) {
+        setResetToken(result.resetToken);
+      }
+      toast.success(t("verifyCode"));
+      router.push("/reset-password");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : tv("required");
+      toast.error(message);
+    }
   };
 
   const resend = async () => {
-    await authService.forgotPassword("");
-    toast.success(t("otpSent"));
+    try {
+      await authService.resendOtp(
+        purpose,
+        purpose === "password_reset" ? flowEmail : undefined
+      );
+      toast.success(t("otpSent"));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : tv("required");
+      toast.error(message);
+    }
   };
 
   return (

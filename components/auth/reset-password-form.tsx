@@ -13,6 +13,7 @@ import {
   type ResetPasswordFormData,
 } from "@/features/auth/validation";
 import { authService } from "@/services/auth-service";
+import { clearAuthFlow, getResetToken } from "@/lib/auth-flow";
 
 export function ResetPasswordForm() {
   const t = useTranslations("auth");
@@ -27,9 +28,22 @@ export function ResetPasswordForm() {
   } = useForm<ResetPasswordFormData>({ resolver: zodResolver(schema) });
 
   const onSubmit = async (data: ResetPasswordFormData) => {
-    await authService.resetPassword(data.password);
-    toast.success(t("resetSuccess"));
-    router.push("/sign-in");
+    const resetToken = getResetToken();
+    if (!resetToken) {
+      toast.error(t("forgotLink"));
+      router.push("/forgot-password");
+      return;
+    }
+
+    try {
+      await authService.resetPassword(data.password, resetToken);
+      clearAuthFlow();
+      toast.success(t("resetSuccess"));
+      router.push("/sign-in");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : tv("required");
+      toast.error(message);
+    }
   };
 
   return (

@@ -13,6 +13,7 @@ import {
   type ForgotPasswordFormData,
 } from "@/features/auth/validation";
 import { authService } from "@/services/auth-service";
+import { setAuthFlow } from "@/lib/auth-flow";
 
 export function ForgotPasswordForm() {
   const t = useTranslations("auth");
@@ -27,9 +28,15 @@ export function ForgotPasswordForm() {
   } = useForm<ForgotPasswordFormData>({ resolver: zodResolver(schema) });
 
   const onSubmit = async (data: ForgotPasswordFormData) => {
-    await authService.forgotPassword(data.email);
-    toast.success(t("otpSent"));
-    router.push("/verify-otp");
+    try {
+      await authService.forgotPassword(data.email);
+      setAuthFlow("password_reset", data.email);
+      toast.success(t("otpSent"));
+      router.push("/verify-otp");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : tv("required");
+      toast.error(message);
+    }
   };
 
   return (

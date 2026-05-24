@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
-import { ContentPage } from "@/components/shared/content-page";
+import { PageTransition } from "@/components/shared/page-transition";
+import { TemplateGallery } from "@/features/resume-builder/components/template-gallery";
 import { createPageMetadata } from "@/lib/seo";
 import { ensureRequestLocale } from "@/lib/ensure-locale";
 import type { Locale } from "@/config/site";
@@ -21,17 +22,20 @@ export default async function TemplatesPage({ params }: Props) {
   const { locale } = await params;
   ensureRequestLocale(locale);
   const t = await getTranslations("landing");
+
   return (
-    <ContentPage title={t("templatesTitle")}>
-      <p>{t("templatesSubtitle")}</p>
-      <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <div
-            key={i}
-            className="aspect-[3/4] rounded-2xl border border-zinc-200 bg-gradient-to-br from-zinc-50 to-zinc-100 dark:border-zinc-800 dark:from-zinc-900 dark:to-zinc-800"
-          />
-        ))}
+    <PageTransition>
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">{t("templatesTitle")}</h1>
+          <p className="mt-3 max-w-2xl text-zinc-600 dark:text-zinc-400">
+            {t("templatesSubtitle")}
+          </p>
+        </div>
+        <div className="mt-10">
+          <TemplateGallery />
+        </div>
       </div>
-    </ContentPage>
+    </PageTransition>
   );
 }

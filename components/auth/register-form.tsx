@@ -15,6 +15,7 @@ import { createRegisterSchema, type RegisterFormData } from "@/features/auth/val
 import { authService } from "@/services/auth-service";
 import { useAuth } from "@/hooks/use-auth";
 import { setAuthCookie } from "@/lib/auth-cookie";
+import { setAuthFlow } from "@/lib/auth-flow";
 
 export function RegisterForm() {
   const t = useTranslations("auth");
@@ -35,10 +36,12 @@ export function RegisterForm() {
       const { user, token } = await authService.register(data);
       login(user, token);
       setAuthCookie(token, true);
+      setAuthFlow("email_verification", data.email);
       toast.success(t("registerSuccess"));
       router.push("/verify-otp");
-    } catch {
-      toast.error(tv("required"));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : tv("required");
+      toast.error(message);
     } finally {
       setLoading(false);
     }

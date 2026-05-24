@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { ResumeBuilderShell } from "@/features/resume-builder/resume-builder-shell";
 import { createPageMetadata } from "@/lib/seo";
@@ -16,8 +17,20 @@ export async function generateMetadata({ params }: Props) {
   });
 }
 
+function BuilderLoading() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-950">
+      <div className="h-8 w-8 animate-spin rounded-full border-2 border-violet-600 border-t-transparent" />
+    </div>
+  );
+}
+
 export default async function BuilderPage({ params }: Props) {
   const { locale } = await params;
   ensureRequestLocale(locale);
-  return <ResumeBuilderShell />;
+  return (
+    <Suspense fallback={<BuilderLoading />}>
+      <ResumeBuilderShell />
+    </Suspense>
+  );
 }

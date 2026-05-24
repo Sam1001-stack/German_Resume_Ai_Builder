@@ -134,6 +134,10 @@
     "accountStatus": "Kontostatus",
     "active": "Aktiv",
     "verified": "Bestätigt",
+    "welcomeBack": "Willkommen zurück",
+    "memberSince": "Mitglied seit",
+    "pendingVerification": "Verifizierung ausstehend",
+    "dashboardSubtitle": "Ihr Profilüberblick und Lebenslauf-Aktivitäten auf einen Blick.",
     "changePassword": "Passwort ändern",
     "twoFactor": "Zwei-Faktor-Authentifizierung",
     "sessions": "Aktive Sitzungen",
@@ -221,6 +225,12 @@
     "emptyResumesDesc": "Erstellen Sie Ihren ersten professionellen Lebenslauf in wenigen Minuten.",
     "analytics": "Lebenslauf-Analysen",
     "recentlyEdited": "Zuletzt bearbeitet",
+    "useTemplate": "Vorlage verwenden",
+    "useTemplateSample": "Mit Beispiel starten",
+    "templateApplied": "Vorlage im Editor angewendet",
+    "templateSampleLoaded": "Beispiel-Lebenslauf im Editor geladen",
+    "templatesPageHint": "Wählen Sie ein Design — es erscheint in der Live-Vorschau des Editors.",
+    "openBuilder": "Editor öffnen",
     "nav": {
       "dashboard": "Dashboard",
       "templates": "Vorlagen"
@@ -275,10 +285,15 @@
     },
     "templates": {
       "germanAts": "Deutsch ATS Professionell",
+      "germanAtsDesc": "Klares einspaltiges Layout, optimiert für deutsche ATS-Systeme und HR-Sichtung.",
       "minimal": "Minimal Modern",
+      "minimalDesc": "Leichte Typografie und viel Weißraum für einen modernen, zurückhaltenden Look.",
       "corporate": "Corporate",
+      "corporateDesc": "Strukturiertes Layout mit Akzentleiste — ideal für Finanz, Beratung und Konzerne.",
       "creative": "Creative Developer",
-      "startup": "Startup Tech"
+      "creativeDesc": "Markanter Akzentrand und expressives Design für Kreativ- und Tech-Portfolios.",
+      "startup": "Startup Tech",
+      "startupDesc": "Energiegeladenes Layout mit lebendigen Farben für Startups und Produktteams."
     }
   }
 }

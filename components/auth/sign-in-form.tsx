@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/routing";
@@ -15,13 +16,21 @@ import { SocialButtons } from "@/components/auth/social-buttons";
 import { createSignInSchema, type SignInFormData } from "@/features/auth/validation";
 import { authService } from "@/services/auth-service";
 import { useAuth } from "@/hooks/use-auth";
+import { useAuthHydrated } from "@/hooks/use-auth-hydrated";
 import { setAuthCookie } from "@/lib/auth-cookie";
 
 export function SignInForm() {
   const t = useTranslations("auth");
   const tv = useTranslations("validation");
   const router = useRouter();
-  const { login, setLoading } = useAuth();
+  const hydrated = useAuthHydrated();
+  const { login, setLoading, isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (hydrated && isAuthenticated) {
+      router.replace("/dashboard");
+    }
+  }, [hydrated, isAuthenticated, router]);
 
   const schema = createSignInSchema((key) => tv(key));
 
@@ -46,8 +55,9 @@ export function SignInForm() {
       setAuthCookie(token, data.rememberMe);
       toast.success(t("signInSuccess"));
       router.push("/dashboard");
-    } catch {
-      toast.error(tv("required"));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : tv("required");
+      toast.error(message);
     } finally {
       setLoading(false);
     }

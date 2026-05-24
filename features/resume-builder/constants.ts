@@ -1,16 +1,14 @@
 import type { TemplateId } from "@/types/resume-builder";
 
-export const TEMPLATE_OPTIONS: {
-  id: TemplateId;
-  labelKey: string;
-  descriptionKey: string;
-}[] = [
-  { id: "german-ats", labelKey: "germanAts", descriptionKey: "germanAtsDesc" },
-  { id: "minimal", labelKey: "minimal", descriptionKey: "minimalDesc" },
-  { id: "corporate", labelKey: "corporate", descriptionKey: "corporateDesc" },
-  { id: "creative", labelKey: "creative", descriptionKey: "creativeDesc" },
-  { id: "startup", labelKey: "startup", descriptionKey: "startupDesc" },
-];
+import { TEMPLATE_PRESETS } from "./template-presets";
+
+export { TEMPLATE_PRESETS, getTemplatePreset, isTemplateId } from "./template-presets";
+
+export const TEMPLATE_OPTIONS = TEMPLATE_PRESETS.map(({ id, labelKey, descriptionKey }) => ({
+  id,
+  labelKey,
+  descriptionKey,
+}));
 
 export const TECH_SUGGESTIONS = [
   "TypeScript",

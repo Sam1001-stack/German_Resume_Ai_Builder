@@ -14,19 +14,7 @@ function isProtectedPath(pathname: string): boolean {
   );
 }
 
-function isAuthPath(pathname: string): boolean {
-  const withoutLocale = stripLocalePrefix(pathname);
-  return [
-    "/sign-in",
-    "/register",
-    "/forgot-password",
-    "/verify-otp",
-    "/reset-password",
-    "/email-verified",
-  ].some((p) => withoutLocale === p || withoutLocale.startsWith(p));
-}
-
-export default function middleware(request: NextRequest) {
+export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname === "/") {
@@ -42,11 +30,6 @@ export default function middleware(request: NextRequest) {
     const signInUrl = new URL(`/${locale}/sign-in`, request.url);
     signInUrl.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(signInUrl);
-  }
-
-  if (isAuthPath(pathname) && isAuthenticated) {
-    const locale = getLocaleFromPathname(pathname);
-    return NextResponse.redirect(new URL(`/${locale}/dashboard`, request.url));
   }
 
   return response;

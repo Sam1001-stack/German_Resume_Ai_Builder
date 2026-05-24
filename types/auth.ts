@@ -4,6 +4,9 @@ export interface User {
   firstName: string;
   lastName: string;
   avatar?: string;
+  bio?: string;
+  phone?: string;
+  location?: string;
   emailVerified: boolean;
   createdAt: string;
 }
@@ -39,5 +42,21 @@ export interface OtpPayload {
 
 export interface ResetPasswordPayload {
   password: string;
+  confirmPassword: string;
+}
+
+export interface UpdateProfilePayload {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  avatar?: string;
+  bio?: string;
+  phone?: string;
+  location?: string;
+}
+
+export interface ChangePasswordPayload {
+  currentPassword: string;
+  newPassword: string;
   confirmPassword: string;
 }

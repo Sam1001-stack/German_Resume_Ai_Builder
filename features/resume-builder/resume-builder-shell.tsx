@@ -11,6 +11,7 @@ import { ResumeTemplateRenderer } from "./templates/resume-template-renderer";
 import { AtsAnalyzerPanel } from "./components/ats-analyzer-panel";
 import { useResumeStore } from "@/store/resume-store";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
+import { useBuilderTemplateQuery } from "@/hooks/use-builder-template-query";
 import { Logo } from "@/components/shared/logo";
 import { Link } from "@/i18n/routing";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
@@ -26,6 +27,7 @@ export function ResumeBuilderShell() {
   const [mobilePreview, setMobilePreview] = useState(false);
 
   useKeyboardShortcuts({ onUndo: undo, onRedo: redo, onSave: saveToLibrary });
+  useBuilderTemplateQuery();
 
   useEffect(() => {
     const timer = setInterval(() => saveToLibrary(), 15000);

@@ -134,6 +134,10 @@
     "accountStatus": "Account Status",
     "active": "Active",
     "verified": "Verified",
+    "welcomeBack": "Welcome back",
+    "memberSince": "Member since",
+    "pendingVerification": "Pending verification",
+    "dashboardSubtitle": "Your profile overview and resume activity at a glance.",
     "changePassword": "Change Password",
     "twoFactor": "Two-Factor Authentication",
     "sessions": "Active Sessions",
@@ -221,6 +225,12 @@
     "emptyResumesDesc": "Create your first professional resume in minutes.",
     "analytics": "Resume analytics",
     "recentlyEdited": "Recently edited",
+    "useTemplate": "Use template",
+    "useTemplateSample": "Start with sample",
+    "templateApplied": "Template applied in builder",
+    "templateSampleLoaded": "Sample resume loaded in builder",
+    "templatesPageHint": "Pick a design — it will appear in the resume builder live preview.",
+    "openBuilder": "Open builder",
     "nav": {
       "dashboard": "Dashboard",
       "templates": "Templates"
@@ -275,10 +285,15 @@
     },
     "templates": {
       "germanAts": "German ATS Professional",
+      "germanAtsDesc": "Clean single-column layout optimized for German ATS and HR screening.",
       "minimal": "Minimal Modern",
+      "minimalDesc": "Light typography and whitespace for a modern, understated look.",
       "corporate": "Corporate",
+      "corporateDesc": "Structured layout with accent bar — ideal for finance, consulting, and enterprise roles.",
       "creative": "Creative Developer",
-      "startup": "Startup Tech"
+      "creativeDesc": "Bold accent border and expressive styling for design and tech portfolios.",
+      "startup": "Startup Tech",
+      "startupDesc": "Energetic layout with vibrant colors for startups and product teams."
     }
   }
 }

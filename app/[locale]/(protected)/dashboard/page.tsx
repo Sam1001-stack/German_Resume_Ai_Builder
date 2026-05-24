@@ -3,23 +3,25 @@
 import { useTranslations } from "next-intl";
 import { PageTransition } from "@/components/shared/page-transition";
 import { StatsCards } from "@/components/profile/stats-cards";
+import { UserProfileCard } from "@/components/profile/user-profile-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useAuth } from "@/hooks/use-auth";
+import { useProfileSync } from "@/hooks/use-profile-sync";
 import { DashboardResumes } from "@/features/resume-builder/components/dashboard-resumes";
 
 export default function DashboardPage() {
   const t = useTranslations("profile");
   const tNav = useTranslations("nav");
-  const { user } = useAuth();
+  useProfileSync();
 
   return (
     <PageTransition>
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold tracking-tight">
-          {tNav("dashboard")}
-          {user ? `, ${user.firstName}` : ""}
-        </h1>
-        <p className="mt-2 text-zinc-600 dark:text-zinc-400">{t("stats")}</p>
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold tracking-tight">{tNav("dashboard")}</h1>
+          <p className="mt-2 text-zinc-600 dark:text-zinc-400">{t("dashboardSubtitle")}</p>
+        </div>
+
+        <UserProfileCard />
 
         <div className="mt-8">
           <StatsCards />
