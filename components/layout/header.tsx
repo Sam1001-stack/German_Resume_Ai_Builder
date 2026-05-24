@@ -29,7 +29,6 @@ export function Header() {
 
   const navItems : { href: string; key: "home" | "builder" | "features" | "pricing" | "templates" | "contact" }[] = [
     { href: "/", key: "home" as const },
-  
     { href: "/features", key: "features" as const },
     { href: "/pricing", key: "pricing" as const },
    
