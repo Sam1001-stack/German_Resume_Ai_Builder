@@ -9,6 +9,7 @@ import { ResumeFormSections } from "./components/resume-form-sections";
 import { ResumeTypeSelector } from "./components/resume-type-selector";
 import { ResumeTemplateRenderer } from "./templates/resume-template-renderer";
 import { AtsAnalyzerPanel } from "./components/ats-analyzer-panel";
+import { JobDescriptionField } from "./components/job-description-field";
 import { useResumeStore } from "@/store/resume-store";
 import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 import { useBuilderTemplateQuery } from "@/hooks/use-builder-template-query";
@@ -75,6 +76,7 @@ export function ResumeBuilderShell() {
                 {t("livePreview")}
               </span>
               <ResumeTypeSelector instanceId="preview" variant="compact" />
+              <JobDescriptionField />
             </div>
             <div className="flex-1 overflow-auto p-6">
               <div className="mx-auto origin-top scale-[0.55] xl:scale-[0.65] 2xl:scale-75">

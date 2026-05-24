@@ -20,6 +20,7 @@ interface ResumeStore {
   autosaveStatus: AutosaveStatus;
   aiSidebarOpen: boolean;
   expandedSections: Record<string, boolean>;
+  jobDescription: string;
 
   setResume: (resume: ResumeDocument, pushHistory?: boolean) => void;
   updateResume: (patch: Partial<ResumeDocument>) => void;
@@ -37,6 +38,7 @@ interface ResumeStore {
   markSaved: () => void;
   toggleSection: (key: string) => void;
   setAiSidebarOpen: (open: boolean) => void;
+  setJobDescription: (jobDescription: string) => void;
   saveToLibrary: () => void;
   duplicateResume: (id: string) => ResumeDocument | null;
   deleteResume: (id: string) => void;
@@ -70,6 +72,7 @@ export const useResumeStore = create<ResumeStore>()(
         social: false,
         werkstudent: true,
       },
+      jobDescription: "",
 
       setResume: (resume, pushHistory = true) =>
         set((state) => ({
@@ -158,6 +161,8 @@ export const useResumeStore = create<ResumeStore>()(
 
       setAiSidebarOpen: (open) => set({ aiSidebarOpen: open }),
 
+      setJobDescription: (jobDescription) => set({ jobDescription }),
+
       saveToLibrary: () => {
         const { resume, savedResumes } = get();
         const exists = savedResumes.findIndex((r) => r.id === resume.id);
@@ -199,6 +204,7 @@ export const useResumeStore = create<ResumeStore>()(
         resume: s.resume,
         savedResumes: s.savedResumes,
         expandedSections: s.expandedSections,
+        jobDescription: s.jobDescription,
       }),
       merge: (persisted, current) => {
         const p = persisted as Partial<ResumeStore> | undefined;
