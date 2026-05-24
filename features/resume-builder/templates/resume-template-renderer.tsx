@@ -161,16 +161,24 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
           >
             {resumePreviewLabel(locale, "education")}
           </h2>
-          {resume.education.map((edu) => (
+          {resume.education.map((edu) => {
+            const start = dateFmt(edu.startDate);
+            const end = dateFmt(edu.endDate);
+            const dateRange =
+              start && end ? `${start} – ${end}` : start || end || "";
+
+            return (
             <div key={edu.id} className="mb-2">
               <p className="text-[11px] font-semibold">
                 {edu.degree} {edu.field && `— ${edu.field}`}
               </p>
               <p className="text-[10px] text-zinc-600">
-                {edu.institution} · {dateFmt(edu.startDate)} – {dateFmt(edu.endDate)}
+                {edu.institution}
+                {dateRange ? ` · ${dateRange}` : ""}
               </p>
             </div>
-          ))}
+            );
+          })}
         </section>
       )}
 

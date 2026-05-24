@@ -341,6 +341,30 @@ export function ResumeFormSections() {
                 })
               }
             />
+            <FloatingInput
+              label={t("fields.startDate")}
+              value={edu.startDate}
+              placeholder="YYYY-MM"
+              onChange={(e) =>
+                updateResume({
+                  education: resume.education.map((x) =>
+                    x.id === edu.id ? { ...x, startDate: e.target.value } : x
+                  ),
+                })
+              }
+            />
+            <FloatingInput
+              label={t("fields.endDate")}
+              value={edu.endDate}
+              placeholder="YYYY-MM"
+              onChange={(e) =>
+                updateResume({
+                  education: resume.education.map((x) =>
+                    x.id === edu.id ? { ...x, endDate: e.target.value } : x
+                  ),
+                })
+              }
+            />
           </div>
         ))}
       </SectionCard>
