@@ -6,9 +6,10 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@/hooks/use-auth";
 
 export function HeroSection() {
-  const token = JSON.parse(localStorage.getItem("resumeai-auth") || "{}")?.state?.token;
+  const { isAuthenticated } = useAuth();
   const t = useTranslations("landing");
 
   return (
@@ -48,13 +49,13 @@ export function HeroSection() {
           transition={{ delay: 0.3 }}
         >
           <Button size="lg" asChild>
-            <Link href={token ? "/builder" : "/sign-in"}>
+            <Link href={isAuthenticated ? "/builder" : "/sign-in"}>
               {t("ctaPrimary")}
               <ArrowRight className="h-4 w-4" />
             </Link>
           </Button>
           <Button size="lg" variant="outline" asChild>
-            <Link href={token ? "/templates" : "/sign-in"}>{t("ctaSecondary")}</Link>
+            <Link href={isAuthenticated ? "/templates" : "/sign-in"}>{t("ctaSecondary")}</Link>
           </Button>
         </motion.div>
         <p className="mt-8 text-sm text-zinc-500">{t("trustedBy")}</p>
