@@ -2,7 +2,7 @@ import { useSyncExternalStore } from "react";
 
 const LOCAL_API_URL = "http://localhost:5000/api";
 const PROD_API_URL =
-  "https://germanresumeaibuilderbackend-production.up.railway.app/api";
+  "https://german-resume-ai-builder-backend.onrender.com/api";
 
 const isLocalHostname = (hostname: string) =>
   hostname === "localhost" || hostname === "127.0.0.1";
