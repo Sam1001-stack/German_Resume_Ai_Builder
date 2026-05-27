@@ -39,6 +39,7 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
   };
 
   const dateFmt = (d: string) => formatMonthYear(d, locale);
+  const locationLine = [personal.address, personal.city, personal.country].filter(Boolean).join(", ");
 
   const content = (
     <>
@@ -59,14 +60,21 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
           {typeLabel}
         </p>
         <div className="mt-2 flex flex-col gap-1 text-xs text-zinc-600">
+        
+          {resume.socialLinks.length > 0 && (
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[10px] text-zinc-500">
+              {resume.socialLinks.map((s) => (
+                <span key={s.id}>
+                  <b>{s.platform}:</b> <a href={s.url} target="_blank" rel="noopener noreferrer">{s.url}</a>
+                </span>
+              ))}
+            </div>
+          )}
           <div className="flex flex-wrap gap-x-4 gap-y-1">
-            {personal.email && <span>{personal.email}</span>}
+            {personal.email && <span>{personal.email} </span>}
             {personal.phone && <span>{personal.phone}</span>}
           </div>
-          {<span>{[personal.address, personal.city, personal.country].filter(Boolean).join(", ")}</span>}
-          {/* {(personal.city || personal.country) && (
-            // <span>{[personal.city, personal.country].filter(Boolean).join(", ")}</span>
-          )} */}
+          {locationLine && <span>{locationLine}</span>}
         </div>
       </header>
 
@@ -237,15 +245,6 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
         </section>
       )}
 
-      {resume.socialLinks.length > 0 && (
-        <section className="mt-5 border-t pt-3 text-[9px] text-zinc-500">
-          {resume.socialLinks.map((s) => (
-            <span key={s.id} className="mr-3">
-              {s.platform}: {s.url.replace(/^https?:\/\//, "")}
-            </span>
-          ))}
-        </section>
-      )}
     </>
   );
 
