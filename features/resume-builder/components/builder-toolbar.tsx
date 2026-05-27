@@ -35,7 +35,6 @@ export function BuilderToolbar() {
   const redo = useResumeStore((s) => s.redo);
   const canUndo = useResumeStore((s) => s.canUndo);
   const canRedo = useResumeStore((s) => s.canRedo);
-  const saveToLibrary = useResumeStore((s) => s.saveToLibrary);
   const { handleSave, isSaving } = useResumeSaveActions();
 
   const exportToast = (type: string) => toast.success(t("exportStarted", { type }));

@@ -9,9 +9,7 @@ export function useResumeHydrated() {
   );
 
   useEffect(() => {
-    const unsub = useResumeStore.persist.onFinishHydration(() => setHydrated(true));
-    setHydrated(useResumeStore.persist.hasHydrated());
-    return unsub;
+    return useResumeStore.persist.onFinishHydration(() => setHydrated(true));
   }, []);
 
   return hydrated;

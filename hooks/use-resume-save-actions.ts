@@ -22,7 +22,6 @@ export function useResumeSaveActions() {
   const jobDescription = useResumeStore((s) => s.jobDescription);
   const saveToLibrary = useResumeStore((s) => s.saveToLibrary);
   const setResume = useResumeStore((s) => s.setResume);
-  const updateResume = useResumeStore((s) => s.updateResume);
   const [isSaving, setIsSaving] = useState(false);
 
   const persistToServer = useCallback(async () => {

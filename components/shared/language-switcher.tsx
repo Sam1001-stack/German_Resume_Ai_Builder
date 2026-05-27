@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Globe } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { setNextLocaleCookie } from "@/lib/set-next-locale-cookie";
 
 const localeLabels: Record<Locale, string> = { en: "English", de: "Deutsch" };
 
@@ -23,7 +24,7 @@ export function LanguageSwitcher() {
 
   const switchLocale = (newLocale: Locale) => {
     router.replace(pathname, { locale: newLocale });
-    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
+    setNextLocaleCookie(newLocale);
   };
 
   return (

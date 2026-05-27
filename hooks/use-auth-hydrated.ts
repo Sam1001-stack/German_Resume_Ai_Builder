@@ -9,9 +9,7 @@ export function useAuthHydrated() {
   );
 
   useEffect(() => {
-    const unsub = useAuthStore.persist.onFinishHydration(() => setHydrated(true));
-    setHydrated(useAuthStore.persist.hasHydrated());
-    return unsub;
+    return useAuthStore.persist.onFinishHydration(() => setHydrated(true));
   }, []);
 
   return hydrated;

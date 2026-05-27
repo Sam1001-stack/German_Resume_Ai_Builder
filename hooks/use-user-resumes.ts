@@ -12,12 +12,10 @@ export function useUserResumes() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const canFetch = hydrated && isAuthenticated;
+
   const refresh = useCallback(async () => {
-    if (!hydrated || !isAuthenticated) {
-      setServerResumes([]);
-      setError(null);
-      return;
-    }
+    if (!canFetch) return;
 
     setLoading(true);
     setError(null);
@@ -30,11 +28,39 @@ export function useUserResumes() {
     } finally {
       setLoading(false);
     }
-  }, [hydrated, isAuthenticated]);
+  }, [canFetch]);
 
   useEffect(() => {
-    void refresh();
-  }, [refresh]);
+    if (!canFetch) return;
 
-  return { serverResumes, loading, error, refresh, isAuthenticated };
+    let cancelled = false;
+
+    (async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const { data } = await userResumeService.getAll();
+        if (!cancelled) setServerResumes(data);
+      } catch (err) {
+        if (!cancelled) {
+          setServerResumes([]);
+          setError(err instanceof Error ? err.message : "Failed to load resumes");
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [canFetch]);
+
+  return {
+    serverResumes: canFetch ? serverResumes : [],
+    loading: canFetch ? loading : false,
+    error: canFetch ? error : null,
+    refresh,
+    isAuthenticated,
+  };
 }

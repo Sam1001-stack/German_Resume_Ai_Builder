@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Upload } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -18,11 +18,8 @@ interface AvatarUploadProps {
 export function AvatarUpload({ value, initials, onChange }: AvatarUploadProps) {
   const t = useTranslations("profile");
   const inputRef = useRef<HTMLInputElement>(null);
-  const [preview, setPreview] = useState(value ?? "");
-
-  useEffect(() => {
-    setPreview(value ?? "");
-  }, [value]);
+  const [uploadedPreview, setUploadedPreview] = useState<string | null>(null);
+  const preview = uploadedPreview ?? value ?? "";
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -30,7 +27,7 @@ export function AvatarUpload({ value, initials, onChange }: AvatarUploadProps) {
 
     try {
       const dataUrl = await readImageAsDataUrl(file);
-      setPreview(dataUrl);
+      setUploadedPreview(dataUrl);
       onChange(dataUrl);
     } catch (error) {
       const message = error instanceof Error ? error.message : t("uploadAvatar");

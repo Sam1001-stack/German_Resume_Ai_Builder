@@ -30,8 +30,9 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     }
 
     restoreAttempted.current = true;
-    setRestoring(true);
     useAuthStore.getState().setToken(token);
+
+    queueMicrotask(() => setRestoring(true));
 
     authService
       .getProfile()
