@@ -2,10 +2,8 @@
 
 import { useTranslations } from "next-intl";
 import {
-  Download,
   FileText,
   Link2,
-  Mail,
   Printer,
   Redo2,
   Save,
@@ -38,7 +36,7 @@ export function BuilderToolbar() {
   const canUndo = useResumeStore((s) => s.canUndo);
   const canRedo = useResumeStore((s) => s.canRedo);
   const saveToLibrary = useResumeStore((s) => s.saveToLibrary);
-  const { handleSave, handleDownloadPdf, handleDownloadCoverLetter, isSaving, isDownloading } = useResumeSaveActions();
+  const { handleSave, isSaving } = useResumeSaveActions();
 
   const exportToast = (type: string) => toast.success(t("exportStarted", { type }));
 
@@ -87,20 +85,6 @@ export function BuilderToolbar() {
         </div>
 
         <div className="flex flex-wrap items-center gap-1 border-l border-zinc-200 pl-2 dark:border-zinc-800">
-          <Button variant="outline" size="sm" onClick={handleDownloadPdf} loading={isDownloading} disabled={isDownloading}>
-            <Download className="h-4 w-4" />
-            PDF
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleDownloadCoverLetter}
-            loading={isDownloading}
-            disabled={isDownloading}
-          >
-            <Mail className="h-4 w-4" />
-            {t("coverLetter")}
-          </Button>
           <Button variant="outline" size="sm" onClick={() => exportToast("DOCX")}>
             <FileText className="h-4 w-4" />
             DOCX

@@ -24,7 +24,6 @@ export function useResumeSaveActions() {
   const setResume = useResumeStore((s) => s.setResume);
   const updateResume = useResumeStore((s) => s.updateResume);
   const [isSaving, setIsSaving] = useState(false);
-  const [isDownloading, setIsDownloading] = useState(false);
 
   const persistToServer = useCallback(async () => {
     const { data } = await userResumeService.save({
@@ -49,62 +48,36 @@ export function useResumeSaveActions() {
 
     setIsSaving(true);
     try {
-      await persistToServer();
+      const serverId = await persistToServer();
       toast.success(t("resumeSaved"));
+
+      // Auto-download resume PDF after save.
+      try {
+        await userResumeService.downloadPdf(serverId, resume.title);
+        toast.success(t("pdfDownloaded"));
+      } catch (error) {
+        const message = error instanceof Error ? error.message : t("pdfDownloadFailed");
+        toast.error(message);
+      }
+
+      // Auto-download cover letter PDF after save (only meaningful if a job description exists).
+      if (jobDescription?.trim()) {
+        try {
+          await userResumeService.downloadCoverLetterPdf(serverId, `${resume.title} - Cover Letter`);
+          toast.success(t("coverLetterDownloaded"));
+        } catch (error) {
+          const message =
+            error instanceof Error ? error.message : t("coverLetterDownloadFailed");
+          toast.error(message);
+        }
+      }
     } catch (error) {
       const message = error instanceof Error ? error.message : t("resumeSaveFailed");
       toast.error(message);
     } finally {
       setIsSaving(false);
     }
-  }, [isAuthenticated, persistToServer, router, saveToLibrary, t]);
+  }, [isAuthenticated, persistToServer, router, saveToLibrary, t, resume.title, jobDescription]);
 
-  const handleDownloadPdf = useCallback(async () => {
-    if (!isAuthenticated) {
-      toast.error(t("loginToSaveResume"));
-      router.push("/sign-in");
-      return;
-    }
-
-    setIsDownloading(true);
-    try {
-      let serverId = resume.serverId;
-      if (!serverId) {
-        serverId = await persistToServer();
-      }
-      await userResumeService.downloadPdf(serverId, resume.title);
-      toast.success(t("pdfDownloaded"));
-    } catch (error) {
-      const message = error instanceof Error ? error.message : t("pdfDownloadFailed");
-      toast.error(message);
-    } finally {
-      setIsDownloading(false);
-    }
-  }, [isAuthenticated, persistToServer, resume.serverId, resume.title, router, t]);
-
-  const handleDownloadCoverLetter = useCallback(async () => {
-    if (!isAuthenticated) {
-      toast.error(t("loginToSaveResume"));
-      router.push("/sign-in");
-      return;
-    }
-
-    setIsDownloading(true);
-    try {
-      let serverId = resume.serverId;
-      if (!serverId) {
-        serverId = await persistToServer();
-      }
-      await userResumeService.downloadCoverLetterPdf(serverId, resume.title);
-      toast.success(t("coverLetterDownloaded"));
-    } catch (error) {
-      const message =
-        error instanceof Error ? error.message : t("coverLetterDownloadFailed");
-      toast.error(message);
-    } finally {
-      setIsDownloading(false);
-    }
-  }, [isAuthenticated, persistToServer, resume.serverId, resume.title, router, t]);
-
-  return { handleSave, handleDownloadPdf, handleDownloadCoverLetter, isSaving, isDownloading };
+  return { handleSave, isSaving };
 }
