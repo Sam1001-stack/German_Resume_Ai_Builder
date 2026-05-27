@@ -4,6 +4,7 @@ import type {
   SignInPayload,
   UpdateProfilePayload,
   User,
+  UserRole,
 } from "@/types/auth";
 import apiClient from "./api-client";
 
@@ -17,6 +18,7 @@ interface ApiUser {
   phone?: string;
   location?: string;
   emailVerified: boolean;
+  role: UserRole;
   createdAt: string;
 }
 
@@ -31,6 +33,7 @@ function mapUser(apiUser: ApiUser): User {
     phone: apiUser.phone,
     location: apiUser.location,
     emailVerified: apiUser.emailVerified,
+    role: apiUser.role ?? "user",
     createdAt: apiUser.createdAt,
   };
 }
@@ -52,6 +55,7 @@ export const authService = {
         lastName: payload.lastName,
         email: payload.email,
         password: payload.password,
+        role: payload.role,
       }
     );
     return { user: mapUser(data.user), token: data.token };

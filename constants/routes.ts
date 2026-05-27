@@ -32,6 +32,8 @@ export const publicRoutes = [
   "/de/faq",
   "/en/careers",
   "/de/careers",
+  "/en/recruiter-builder",
+  "/de/recruiter-builder",
 ] as const;
 
 export const authRoutes = [

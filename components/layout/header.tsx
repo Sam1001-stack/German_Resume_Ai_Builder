@@ -11,6 +11,7 @@ import { SocialLinks } from "@/components/shared/social-links";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
+import type { NavItem } from "@/constants/nav";
 import { HeaderUserMenu } from "@/components/layout/header-user-menu";
 import dynamic from "next/dynamic";
 
@@ -27,19 +28,17 @@ export function Header() {
   const { isAuthenticated } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const navItems: {
-    href: string;
-    key: "home" | "builder" | "features" | "pricing" | "templates" | "contact";
-  }[] = [
+  const navItems: NavItem[] = [
     { href: "/", key: "home" },
     { href: "/features", key: "features" },
     { href: "/pricing", key: "pricing" },
+    { href: "/recruiter-builder", key: "recruiterBuilder" },
     ...(isAuthenticated
-      ? [
-          { href: "/builder", key: "builder" as const },
-          { href: "/templates", key: "templates" as const },
-          { href: "/contact", key: "contact" as const },
-        ]
+      ? ([
+          { href: "/builder", key: "builder" },
+          { href: "/templates", key: "templates" },
+          { href: "/contact", key: "contact" },
+        ] satisfies NavItem[])
       : []),
   ];
 

@@ -27,8 +27,14 @@ export function RegisterForm() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
-  } = useForm<RegisterFormData>({ resolver: zodResolver(schema) });
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(schema),
+    defaultValues: { role: "user" },
+  });
+
+  const selectedRole = watch("role");
 
   const onSubmit = async (data: RegisterFormData) => {
     setLoading(true);
@@ -61,6 +67,52 @@ export function RegisterForm() {
           {errors.lastName && <p className="text-sm text-red-500">{errors.lastName.message}</p>}
         </div>
       </div>
+      <fieldset className="space-y-3">
+        <legend className="text-sm font-medium leading-none">{t("registerAs")}</legend>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <label
+            className={`flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 transition-colors ${
+              selectedRole === "user"
+                ? "border-violet-600 bg-violet-50 dark:border-violet-500 dark:bg-violet-950/40"
+                : "border-zinc-200 hover:border-zinc-300 dark:border-zinc-800 dark:hover:border-zinc-700"
+            }`}
+          >
+            <input
+              type="radio"
+              value="user"
+              className="h-4 w-4 accent-violet-600"
+              {...register("role")}
+            />
+            <span>
+              <span className="block text-sm font-medium">{t("roleCandidate")}</span>
+              <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                {t("roleCandidateDesc")}
+              </span>
+            </span>
+          </label>
+          <label
+            className={`flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 transition-colors ${
+              selectedRole === "recruiter"
+                ? "border-violet-600 bg-violet-50 dark:border-violet-500 dark:bg-violet-950/40"
+                : "border-zinc-200 hover:border-zinc-300 dark:border-zinc-800 dark:hover:border-zinc-700"
+            }`}
+          >
+            <input
+              type="radio"
+              value="recruiter"
+              className="h-4 w-4 accent-violet-600"
+              {...register("role")}
+            />
+            <span>
+              <span className="block text-sm font-medium">{t("roleRecruiter")}</span>
+              <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                {t("roleRecruiterDesc")}
+              </span>
+            </span>
+          </label>
+        </div>
+        {errors.role && <p className="text-sm text-red-500">{errors.role.message}</p>}
+      </fieldset>
       <div className="space-y-2">
         <Label htmlFor="email">{t("email")}</Label>
         <Input id="email" type="email" {...register("email")} />

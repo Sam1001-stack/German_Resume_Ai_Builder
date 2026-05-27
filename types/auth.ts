@@ -1,3 +1,5 @@
+export type UserRole = "user" | "admin" | "recruiter";
+
 export interface User {
   id: string;
   email: string;
@@ -8,6 +10,7 @@ export interface User {
   phone?: string;
   location?: string;
   emailVerified: boolean;
+  role: UserRole;
   createdAt: string;
 }
 
@@ -30,6 +33,7 @@ export interface RegisterPayload {
   email: string;
   password: string;
   confirmPassword: string;
+  role: "user" | "recruiter";
 }
 
 export interface ForgotPasswordPayload {

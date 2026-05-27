@@ -7,9 +7,10 @@ import { cn } from "@/lib/utils";
 import { LanguageSwitcher } from "@/components/shared/language-switcher";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { SocialLinks } from "@/components/shared/social-links";
+import type { NavItem } from "@/constants/nav";
 
 interface MobileNavProps {
-  navItems: { href: string; key: "home" | "builder" | "features" | "pricing" | "templates" | "contact" }[];
+  navItems: NavItem[];
   isActive: (href: string) => boolean;
   isAuthenticated: boolean;
   onClose: () => void;

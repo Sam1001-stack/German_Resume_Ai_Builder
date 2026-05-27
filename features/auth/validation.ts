@@ -15,6 +15,7 @@ export const createRegisterSchema = (t: (key: string) => string) =>
       email: z.string().min(1, t("required")).email(t("email")),
       password: z.string().min(1, t("required")).min(8, t("passwordMin")),
       confirmPassword: z.string().min(1, t("required")),
+      role: z.enum(["user", "recruiter"]),
     })
     .refine((data) => data.password === data.confirmPassword, {
       message: t("passwordMatch"),
