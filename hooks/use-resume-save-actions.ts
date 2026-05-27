@@ -19,6 +19,7 @@ export function useResumeSaveActions() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const resume = useResumeStore((s) => s.resume);
+  const jobDescription = useResumeStore((s) => s.jobDescription);
   const saveToLibrary = useResumeStore((s) => s.saveToLibrary);
   const setResume = useResumeStore((s) => s.setResume);
   const updateResume = useResumeStore((s) => s.updateResume);
@@ -26,12 +27,16 @@ export function useResumeSaveActions() {
   const [isDownloading, setIsDownloading] = useState(false);
 
   const persistToServer = useCallback(async () => {
-    const { data } = await userResumeService.save({ locale, content: resume });
+    const { data } = await userResumeService.save({
+      locale,
+      content: resume,
+      jobDescription: jobDescription?.trim() ? jobDescription : undefined,
+    });
     const next = mergeServerId(resume, data._id);
     setResume(next, false);
     saveToLibrary();
     return data._id;
-  }, [locale, resume, saveToLibrary, setResume]);
+  }, [locale, resume, jobDescription, saveToLibrary, setResume]);
 
   const handleSave = useCallback(async () => {
     saveToLibrary();
@@ -77,5 +82,29 @@ export function useResumeSaveActions() {
     }
   }, [isAuthenticated, persistToServer, resume.serverId, resume.title, router, t]);
 
-  return { handleSave, handleDownloadPdf, isSaving, isDownloading };
+  const handleDownloadCoverLetter = useCallback(async () => {
+    if (!isAuthenticated) {
+      toast.error(t("loginToSaveResume"));
+      router.push("/sign-in");
+      return;
+    }
+
+    setIsDownloading(true);
+    try {
+      let serverId = resume.serverId;
+      if (!serverId) {
+        serverId = await persistToServer();
+      }
+      await userResumeService.downloadCoverLetterPdf(serverId, resume.title);
+      toast.success(t("coverLetterDownloaded"));
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : t("coverLetterDownloadFailed");
+      toast.error(message);
+    } finally {
+      setIsDownloading(false);
+    }
+  }, [isAuthenticated, persistToServer, resume.serverId, resume.title, router, t]);
+
+  return { handleSave, handleDownloadPdf, handleDownloadCoverLetter, isSaving, isDownloading };
 }

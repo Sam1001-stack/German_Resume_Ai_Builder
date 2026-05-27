@@ -9,11 +9,15 @@ export interface SavedUserResume {
   content: ResumeDocument;
   updatedAt: string;
   createdAt: string;
+  hasCoverLetter?: boolean;
 }
 
 export interface SaveUserResumePayload {
   locale: "en" | "de";
   content: ResumeDocument;
+  jobDescription?: string;
+  companyName?: string;
+  targetRole?: string;
 }
 
 export const userResumeService = {
@@ -33,6 +37,24 @@ export const userResumeService = {
     const link = document.createElement("a");
     link.href = url;
     link.download = `${filename.replace(/[^\w\-]+/g, "_") || "resume"}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  },
+
+  downloadCoverLetterPdf: async (id: string, filename: string) => {
+    const response = await apiClient.get<Blob>(
+      `/user-resumes/${id}/cover-letter/pdf`,
+      {
+        responseType: "blob",
+        timeout: 120000,
+      }
+    );
+    const url = window.URL.createObjectURL(response.data);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${filename.replace(/[^\w\-]+/g, "_") || "cover_letter"}.pdf`;
     document.body.appendChild(link);
     link.click();
     link.remove();
