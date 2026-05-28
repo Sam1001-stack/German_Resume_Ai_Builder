@@ -378,6 +378,8 @@
       "company": "Unternehmen",
       "startDate": "Beginn",
       "endDate": "Ende",
+      "currentlyWorking": "Ich arbeite derzeit hier",
+      "currentlyStudying": "Ich studiere derzeit hier",
       "bulletsPlaceholder": "Ein Erfolg pro Zeile…",
       "institution": "Institution",
       "degree": "Abschluss",

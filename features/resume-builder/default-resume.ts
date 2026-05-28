@@ -112,6 +112,7 @@ export const DEMO_RESUME: ResumeDocument = {
       field: "Informatik",
       startDate: "2016-10",
       endDate: "2018-09",
+      current: false,
       description: "Schwerpunkt: Software Engineering & Distributed Systems",
     },
   ],

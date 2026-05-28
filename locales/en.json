@@ -385,6 +385,8 @@
       "company": "Company",
       "startDate": "Start date",
       "endDate": "End date",
+      "currentlyWorking": "Currently working here",
+      "currentlyStudying": "Currently studying here",
       "bulletsPlaceholder": "One achievement per line…",
       "institution": "Institution",
       "degree": "Degree",

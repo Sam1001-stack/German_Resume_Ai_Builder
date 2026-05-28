@@ -51,6 +51,7 @@ export interface Education {
   field: string;
   startDate: string;
   endDate: string;
+  current?: boolean;
   description: string;
 }
 

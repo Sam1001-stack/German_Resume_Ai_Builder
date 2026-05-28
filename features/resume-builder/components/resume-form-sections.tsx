@@ -37,6 +37,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { useResumeHydrated } from "@/hooks/use-resume-hydrated";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -261,16 +262,27 @@ export function ResumeFormSections() {
                 />
                 <FloatingInput
                   label={t("fields.startDate")}
+                  type="month"
                   value={exp.startDate}
                   placeholder="YYYY-MM"
                   onChange={(e) => updateExperience(exp.id, { startDate: e.target.value })}
                 />
                 <FloatingInput
                   label={t("fields.endDate")}
+                  type="month"
                   value={exp.endDate}
                   placeholder="YYYY-MM"
                   onChange={(e) => updateExperience(exp.id, { endDate: e.target.value })}
                   disabled={exp.current}
+                />
+              </div>
+              <div className="flex items-center justify-between rounded-lg border border-zinc-200 px-3 py-2 dark:border-zinc-700">
+                <span className="text-sm text-zinc-700 dark:text-zinc-300">{t("fields.currentlyWorking")}</span>
+                <Switch
+                  checked={exp.current}
+                  onCheckedChange={(checked) =>
+                    updateExperience(exp.id, { current: checked, endDate: checked ? "" : exp.endDate })
+                  }
                 />
               </div>
               <AiButton
@@ -310,6 +322,7 @@ export function ResumeFormSections() {
                 field: "",
                 startDate: "",
                 endDate: "",
+                current: false,
                 description: "",
               },
             ],
@@ -343,6 +356,7 @@ export function ResumeFormSections() {
             />
             <FloatingInput
               label={t("fields.startDate")}
+              type="month"
               value={edu.startDate}
               placeholder="YYYY-MM"
               onChange={(e) =>
@@ -355,6 +369,7 @@ export function ResumeFormSections() {
             />
             <FloatingInput
               label={t("fields.endDate")}
+              type="month"
               value={edu.endDate}
               placeholder="YYYY-MM"
               onChange={(e) =>
@@ -364,7 +379,21 @@ export function ResumeFormSections() {
                   ),
                 })
               }
+              disabled={Boolean(edu.current)}
             />
+            <div className="sm:col-span-2 flex items-center justify-between rounded-lg border border-zinc-200 px-3 py-2 dark:border-zinc-700">
+              <span className="text-sm text-zinc-700 dark:text-zinc-300">{t("fields.currentlyStudying")}</span>
+              <Switch
+                checked={Boolean(edu.current)}
+                onCheckedChange={(checked) =>
+                  updateResume({
+                    education: resume.education.map((x) =>
+                      x.id === edu.id ? { ...x, current: checked, endDate: checked ? "" : x.endDate } : x
+                    ),
+                  })
+                }
+              />
+            </div>
           </div>
         ))}
       </SectionCard>

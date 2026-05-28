@@ -171,9 +171,8 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
           </h2>
           {resume.education.map((edu) => {
             const start = dateFmt(edu.startDate);
-            const end = dateFmt(edu.endDate);
-            const dateRange =
-              start && end ? `${start} – ${end}` : start || end || "";
+            const end = edu.current ? resumePreviewLabel(locale, "present") : dateFmt(edu.endDate);
+            const dateRange = start && end ? `${start} – ${end}` : start || end || "";
 
             return (
             <div key={edu.id} className="mb-2">
