@@ -25,22 +25,33 @@ const MobileNav = dynamic(
 export function Header() {
   const t = useTranslations("nav");
   const pathname = usePathname();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated , user} = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+
+  // console.log("user", user);
+  // console.log("isAuthenticated", isAuthenticated);
+
+  const roleSpecificItem: NavItem =
+    user?.role === "recruiter"
+      ? { href: "/recruiter-builder", key: "recruiterBuilder" }
+      : { href: "/builder", key: "builder" };
 
   const navItems: NavItem[] = [
     { href: "/", key: "home" },
     { href: "/features", key: "features" },
     { href: "/pricing", key: "pricing" },
-    { href: "/recruiter-builder", key: "recruiterBuilder" },
+    
     ...(isAuthenticated
       ? ([
-          { href: "/builder", key: "builder" },
+          roleSpecificItem,
           { href: "/templates", key: "templates" },
           { href: "/contact", key: "contact" },
         ] satisfies NavItem[])
       : []),
   ];
+
+
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
