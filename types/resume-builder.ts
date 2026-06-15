@@ -1,5 +1,9 @@
 export type ResumeType = "professional" | "werkstudent";
 
+export type FieldCategory = "it" | "other";
+
+export type ItFieldType = "developer" | "general";
+
 export type TemplateId =
   | "german-ats"
   | "minimal"
@@ -30,6 +34,7 @@ export interface PersonalInfo {
   country: string;
   headline: string;
   photoUrl?: string;
+  willingToRelocate?: boolean | null;
 }
 
 export interface WorkExperience {
@@ -86,6 +91,8 @@ export interface ResumeDocument {
   id: string;
   title: string;
   resumeType: ResumeType;
+  fieldCategory: FieldCategory;
+  itFieldType?: ItFieldType | null;
   templateId: TemplateId;
   theme: ResumeTheme;
   updatedAt: string;

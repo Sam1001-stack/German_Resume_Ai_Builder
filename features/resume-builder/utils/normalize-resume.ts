@@ -20,6 +20,11 @@ export function normalizeResumeDocument(
     languages: content.languages ?? [],
     socialLinks: content.socialLinks ?? [],
     resumeType: content.resumeType ?? DEMO_RESUME.resumeType,
+    fieldCategory: content.fieldCategory ?? DEMO_RESUME.fieldCategory,
+    itFieldType:
+      content.fieldCategory === "other"
+        ? null
+        : content.itFieldType ?? DEMO_RESUME.itFieldType ?? "developer",
     templateId: content.templateId ?? DEMO_RESUME.templateId,
     theme: { ...DEMO_RESUME.theme, ...(content.theme ?? {}) },
   };

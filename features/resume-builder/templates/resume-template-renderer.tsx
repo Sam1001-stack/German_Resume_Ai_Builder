@@ -73,6 +73,11 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
             {personal.phone && <span>{personal.phone}</span>}
           </div>
           {locationLine && <span>{locationLine}</span>}
+          {personal.willingToRelocate === true && (
+            <span className="font-medium text-zinc-700">
+              {resumePreviewLabel(locale, "willingToRelocate")}
+            </span>
+          )}
         </div>
       </header>
 
@@ -195,15 +200,31 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
           >
             {resumePreviewLabel(locale, "projects")}
           </h2>
-          {resume.projects.map((p) => (
+          {resume.projects.map((p) => {
+            const descriptionLines = p.description
+              .split("\n")
+              .map((line) => line.trim())
+              .filter(Boolean);
+            return (
             <div key={p.id} className="mb-2">
               <p className="text-[11px] font-semibold">{p.name}</p>
-              <p className="text-[10px] text-zinc-700">{p.description}</p>
+              {descriptionLines.length > 1 ? (
+                <ul className="mt-1 list-disc pl-4 text-[10px] leading-relaxed text-zinc-700">
+                  {descriptionLines.map((line, i) => (
+                    <li key={i}>{line}</li>
+                  ))}
+                </ul>
+              ) : (
+                p.description && (
+                  <p className="text-[10px] text-zinc-700">{p.description}</p>
+                )
+              )}
               {p.technologies.length > 0 && (
                 <p className="text-[9px] text-zinc-500">{p.technologies.join(", ")}</p>
               )}
             </div>
-          ))}
+            );
+          })}
         </section>
       )}
 

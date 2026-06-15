@@ -1,6 +1,7 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import {
   User,
   FileText,
@@ -22,6 +23,7 @@ import { AiButton } from "./ai-button";
 import { useAiGeneration } from "@/hooks/use-ai-generation";
 import { SortableList } from "./sortable-list";
 import { TECH_SUGGESTIONS, LANGUAGE_LEVELS, SOCIAL_PLATFORMS } from "@/features/resume-builder/constants";
+import { aiService } from "@/services/ai-service";
 import type {
   WorkExperience,
   Education,
@@ -42,12 +44,16 @@ import { toast } from "sonner";
 import { useResumeHydrated } from "@/hooks/use-resume-hydrated";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ResumeTypeSelector } from "./resume-type-selector";
+import { FieldCategorySelector } from "./field-category-selector";
 import { WerkstudentFields } from "./werkstudent-fields";
 
 export function ResumeFormSections() {
   const t = useTranslations("builder");
+  const locale = useLocale() as "en" | "de";
   const hydrated = useResumeHydrated();
+  const [tailoringSectionId, setTailoringSectionId] = useState<string | null>(null);
   const resume = useResumeStore((s) => s.resume);
+  const jobDescription = useResumeStore((s) => s.jobDescription);
   const updateResume = useResumeStore((s) => s.updateResume);
   const expanded = useResumeStore((s) => s.expandedSections);
   const toggle = useResumeStore((s) => s.toggleSection);
@@ -112,6 +118,55 @@ export function ResumeFormSections() {
     toast.success(t("aiApplied"));
   };
 
+  const handleTailorSectionFromJob = async (
+    sectionId: string,
+    sectionType: "experience" | "project",
+    rawDescription: string,
+    title?: string,
+    company?: string
+  ) => {
+    if (!jobDescription.trim()) {
+      toast.error(t("jobDescriptionRequired"));
+      return;
+    }
+    if (!rawDescription.trim()) {
+      toast.error(t("sectionDescriptionRequired"));
+      return;
+    }
+
+    setTailoringSectionId(sectionId);
+    try {
+      const { data } = await aiService.tailorSectionFromJob({
+        jobDescription: jobDescription.trim(),
+        locale,
+        resumeType: resume.resumeType ?? "professional",
+        sectionType,
+        rawDescription: rawDescription.trim(),
+        title: title?.trim() || undefined,
+        company: company?.trim() || undefined,
+      });
+
+      if (sectionType === "experience") {
+        updateExperience(sectionId, { bullets: [...data.lines] });
+      } else {
+        updateResume({
+          projects: resume.projects.map((project) =>
+            project.id === sectionId
+              ? { ...project, description: data.lines.join("\n") }
+              : project
+          ),
+        });
+      }
+
+      toast.success(t("sectionTailorSuccess"));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : t("searchWithAiError");
+      toast.error(message);
+    } finally {
+      setTailoringSectionId(null);
+    }
+  };
+
   if (!hydrated) {
     return (
       <div className="space-y-4 pb-24">
@@ -124,6 +179,7 @@ export function ResumeFormSections() {
 
   return (
     <div className="space-y-4 pb-24">
+      <FieldCategorySelector />
       <ResumeTypeSelector instanceId="form" />
       <WerkstudentFields />
       <SectionCard
@@ -176,6 +232,22 @@ export function ResumeFormSections() {
             value={resume.personal.country}
             onChange={(e) => updatePersonal("country", e.target.value)}
           />
+          <div className="flex items-center justify-between rounded-lg border border-zinc-200 px-3 py-2 dark:border-zinc-700 sm:col-span-2">
+            <span className="text-sm text-zinc-700 dark:text-zinc-300">
+              {t("fields.willingToRelocate")}
+            </span>
+            <Switch
+              checked={resume.personal.willingToRelocate === true}
+              onCheckedChange={(checked) =>
+                updateResume({
+                  personal: {
+                    ...resume.personal,
+                    willingToRelocate: checked ? true : null,
+                  },
+                })
+              }
+            />
+          </div>
         </div>
       </SectionCard>
 
@@ -300,6 +372,25 @@ export function ResumeFormSections() {
                   }
                 />
               </div>
+              <Textarea
+                value={exp.description}
+                onChange={(e) => updateExperience(exp.id, { description: e.target.value })}
+                rows={3}
+                placeholder={t("fields.descriptionPlaceholder")}
+              />
+              <AiButton
+                label={t("searchWithAi")}
+                loading={tailoringSectionId === exp.id}
+                onClick={() =>
+                  handleTailorSectionFromJob(
+                    exp.id,
+                    "experience",
+                    exp.description,
+                    exp.position,
+                    exp.company
+                  )
+                }
+              />
               <AiButton
                 label={t("ai.enhanceBullets")}
                 loading={isGenerating}
@@ -449,6 +540,13 @@ export function ResumeFormSections() {
                     x.id === p.id ? { ...x, name: e.target.value } : x
                   ),
                 })
+              }
+            />
+            <AiButton
+              label={t("searchWithAi")}
+              loading={tailoringSectionId === p.id}
+              onClick={() =>
+                handleTailorSectionFromJob(p.id, "project", p.description, p.name)
               }
             />
             <Textarea

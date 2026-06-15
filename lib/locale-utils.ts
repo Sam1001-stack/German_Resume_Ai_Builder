@@ -42,6 +42,7 @@ const resumePreviewLabels = {
   socialSecurityNo: { en: "Social Security No.", de: "Sozialversicherungsnummer" },
   availability: { en: "Availability", de: "Verfügbarkeit" },
   enrollment: { en: "University Enrollment", de: "Hochschuleinschreibung" },
+  willingToRelocate: { en: "Willing to relocate", de: "Umzugsbereit" },
 } as const;
 
 export type ResumePreviewLabelKey = keyof typeof resumePreviewLabels;
