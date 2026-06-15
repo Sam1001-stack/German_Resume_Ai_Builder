@@ -79,6 +79,21 @@ export function ResumeFormSections() {
   const removeExperience = (id: string) =>
     updateResume({ experience: resume.experience.filter((e) => e.id !== id) });
 
+  const removeEducation = (id: string) =>
+    updateResume({ education: resume.education.filter((e) => e.id !== id) });
+
+  const removeProject = (id: string) =>
+    updateResume({ projects: resume.projects.filter((p) => p.id !== id) });
+
+  const removeCertification = (id: string) =>
+    updateResume({ certifications: resume.certifications.filter((c) => c.id !== id) });
+
+  const removeLanguage = (id: string) =>
+    updateResume({ languages: resume.languages.filter((l) => l.id !== id) });
+
+  const removeSocialLink = (id: string) =>
+    updateResume({ socialLinks: resume.socialLinks.filter((l) => l.id !== id) });
+
   const addSkill = (skill: string) => {
     if (!skill.trim() || resume.skills.includes(skill.trim())) return;
     updateResume({ skills: [...resume.skills, skill.trim()] });
@@ -332,6 +347,11 @@ export function ResumeFormSections() {
       >
         {resume.education.map((edu) => (
           <div key={edu.id} className="grid gap-3 rounded-lg border border-zinc-100 p-3 dark:border-zinc-800 sm:grid-cols-2">
+            <div className="flex justify-end sm:col-span-2">
+              <Button type="button" variant="ghost" size="icon" onClick={() => removeEducation(edu.id)}>
+                <Trash2 className="h-4 w-4 text-red-500" />
+              </Button>
+            </div>
             <FloatingInput
               label={t("fields.institution")}
               value={edu.institution}
@@ -415,6 +435,11 @@ export function ResumeFormSections() {
       >
         {resume.projects.map((p) => (
           <div key={p.id} className="space-y-2 rounded-lg border border-zinc-100 p-3 dark:border-zinc-800">
+            <div className="flex justify-end">
+              <Button type="button" variant="ghost" size="icon" onClick={() => removeProject(p.id)}>
+                <Trash2 className="h-4 w-4 text-red-500" />
+              </Button>
+            </div>
             <FloatingInput
               label={t("fields.projectName")}
               value={p.name}
@@ -458,6 +483,11 @@ export function ResumeFormSections() {
       >
         {resume.certifications.map((c: Certification) => (
           <div key={c.id} className="grid gap-3 sm:grid-cols-2">
+            <div className="flex justify-end sm:col-span-2">
+              <Button type="button" variant="ghost" size="icon" onClick={() => removeCertification(c.id)}>
+                <Trash2 className="h-4 w-4 text-red-500" />
+              </Button>
+            </div>
             <FloatingInput
               label={t("fields.certName")}
               value={c.name}
@@ -534,6 +564,9 @@ export function ResumeFormSections() {
                 ))}
               </SelectContent>
             </Select>
+            <Button type="button" variant="ghost" size="icon" onClick={() => removeLanguage(lang.id)}>
+              <Trash2 className="h-4 w-4 text-red-500" />
+            </Button>
           </div>
         ))}
       </SectionCard>
@@ -588,6 +621,9 @@ export function ResumeFormSections() {
               }
               className="flex-1"
             />
+            <Button type="button" variant="ghost" size="icon" onClick={() => removeSocialLink(link.id)}>
+              <Trash2 className="h-4 w-4 text-red-500" />
+            </Button>
           </div>
         ))}
       </SectionCard>

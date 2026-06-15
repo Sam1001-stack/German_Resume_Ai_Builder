@@ -321,16 +321,6 @@ function analyzeWerkstudent(resume: ResumeDocument): SectionAnalysis {
       : check("visa", "fail", "checks.werkstudent.visaFail", "checks.werkstudent.visaSuggest")
   );
   checks.push(
-    w.taxId.trim()
-      ? check("tax", "pass", "checks.werkstudent.taxPass")
-      : check("tax", "fail", "checks.werkstudent.taxFail", "checks.werkstudent.taxSuggest")
-  );
-  checks.push(
-    w.socialSecurityNo.trim()
-      ? check("socialSecurity", "pass", "checks.werkstudent.socialSecurityPass")
-      : check("socialSecurity", "fail", "checks.werkstudent.socialSecurityFail", "checks.werkstudent.socialSecuritySuggest")
-  );
-  checks.push(
     w.availability.trim()
       ? check("availability", "pass", "checks.werkstudent.availabilityPass")
       : check("availability", "fail", "checks.werkstudent.availabilityFail", "checks.werkstudent.availabilitySuggest")
