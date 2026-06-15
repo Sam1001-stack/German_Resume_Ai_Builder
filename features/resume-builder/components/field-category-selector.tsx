@@ -3,13 +3,34 @@
 import { useTranslations } from "next-intl";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useResumeStore } from "@/store/resume-store";
+import {
+  distributeSkillsToDeveloperGroups,
+  flattenDeveloperSkills,
+} from "@/features/resume-builder/constants/developer-skills";
 import type { FieldCategory, ItFieldType } from "@/types/resume-builder";
 
 export function FieldCategorySelector() {
   const t = useTranslations("builder.analyzer");
-  const fieldCategory = useResumeStore((s) => s.resume.fieldCategory ?? "it");
-  const itFieldType = useResumeStore((s) => s.resume.itFieldType ?? "developer");
+  const resume = useResumeStore((s) => s.resume);
+  const fieldCategory = resume.fieldCategory ?? "it";
+  const itFieldType = resume.itFieldType ?? "developer";
   const updateResume = useResumeStore((s) => s.updateResume);
+
+  const enableDeveloperSkills = () => {
+    const developerSkills =
+      resume.developerSkills ?? distributeSkillsToDeveloperGroups(resume.skills);
+    updateResume({
+      itFieldType: "developer",
+      developerSkills,
+      skills: flattenDeveloperSkills(developerSkills),
+    });
+  };
+
+  const disableDeveloperSkills = () => {
+    updateResume({
+      developerSkills: null,
+    });
+  };
 
   const categoryOptions: { value: FieldCategory; labelKey: "fieldIt" | "fieldOther" }[] = [
     { value: "it", labelKey: "fieldIt" },
@@ -36,10 +57,29 @@ export function FieldCategorySelector() {
               checked={fieldCategory === value}
               onCheckedChange={(checked) => {
                 if (!checked) return;
-                updateResume({
-                  fieldCategory: value,
-                  itFieldType: value === "it" ? itFieldType ?? "developer" : null,
-                });
+                if (value === "it") {
+                  updateResume({
+                    fieldCategory: value,
+                    itFieldType: itFieldType ?? "developer",
+                    developerSkills:
+                      (itFieldType ?? "developer") === "developer"
+                        ? resume.developerSkills ?? distributeSkillsToDeveloperGroups(resume.skills)
+                        : null,
+                    skills:
+                      (itFieldType ?? "developer") === "developer"
+                        ? flattenDeveloperSkills(
+                            resume.developerSkills ??
+                              distributeSkillsToDeveloperGroups(resume.skills)
+                          )
+                        : resume.skills,
+                  });
+                } else {
+                  updateResume({
+                    fieldCategory: value,
+                    itFieldType: null,
+                    developerSkills: null,
+                  });
+                }
               }}
             />
             <span>{t(labelKey)}</span>
@@ -61,7 +101,13 @@ export function FieldCategorySelector() {
                 <Checkbox
                   checked={itFieldType === value}
                   onCheckedChange={(checked) => {
-                    if (checked) updateResume({ itFieldType: value });
+                    if (!checked) return;
+                    if (value === "developer") {
+                      enableDeveloperSkills();
+                    } else {
+                      updateResume({ itFieldType: value });
+                      disableDeveloperSkills();
+                    }
                   }}
                 />
                 <span>{t(labelKey)}</span>

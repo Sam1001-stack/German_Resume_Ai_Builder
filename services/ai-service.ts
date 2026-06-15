@@ -1,5 +1,7 @@
 import apiClient from "./api-client";
 
+import type { DeveloperSkillGroups } from "@/types/resume-builder";
+
 export interface TailorFromJobPayload {
   jobDescription: string;
   locale: "en" | "de";
@@ -7,11 +9,14 @@ export interface TailorFromJobPayload {
   headline?: string;
   currentSummary?: string;
   currentSkills?: string[];
+  fieldCategory?: "it" | "other";
+  itFieldType?: "developer" | "general";
 }
 
 export interface TailorFromJobResponse {
   summary: string;
   skills: string[];
+  developerSkills?: DeveloperSkillGroups;
 }
 
 export interface TailorSectionFromJobPayload {

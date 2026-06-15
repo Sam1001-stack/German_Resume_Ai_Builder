@@ -7,7 +7,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { AiButton } from "./ai-button";
 import { aiService } from "@/services/ai-service";
+import { distributeSkillsToDeveloperGroups } from "@/features/resume-builder/constants/developer-skills";
+import {
+  getDeveloperSkillGroups,
+  isDeveloperSkillsMode,
+  withSyncedDeveloperSkills,
+} from "@/features/resume-builder/utils/developer-skills-mode";
 import { useResumeStore } from "@/store/resume-store";
+import type { ResumeDocument } from "@/types/resume-builder";
 
 export function JobDescriptionField() {
   const t = useTranslations("builder");
@@ -24,6 +31,11 @@ export function JobDescriptionField() {
       return;
     }
 
+    const developerMode = isDeveloperSkillsMode(resume);
+    const currentSkills = developerMode
+      ? withSyncedDeveloperSkills(getDeveloperSkillGroups(resume)).skills
+      : resume.skills;
+
     setIsSearching(true);
     try {
       const { data } = await aiService.tailorFromJobDescription({
@@ -32,13 +44,24 @@ export function JobDescriptionField() {
         resumeType: resume.resumeType ?? "professional",
         headline: resume.personal.headline || undefined,
         currentSummary: resume.summary || undefined,
-        currentSkills: resume.skills.length ? resume.skills : undefined,
+        currentSkills: currentSkills.length ? currentSkills : undefined,
+        fieldCategory: resume.fieldCategory,
+        itFieldType: resume.itFieldType ?? undefined,
       });
 
-      updateResume({
+      const patch: Partial<ResumeDocument> = {
         summary: data.summary,
-        skills: data.skills,
-      });
+      };
+
+      if (developerMode) {
+        const developerSkills =
+          data.developerSkills ?? distributeSkillsToDeveloperGroups(data.skills);
+        Object.assign(patch, withSyncedDeveloperSkills(developerSkills));
+      } else {
+        patch.skills = data.skills;
+      }
+
+      updateResume(patch);
       toast.success(t("searchWithAiSuccess"));
     } catch (error) {
       const message = error instanceof Error ? error.message : t("searchWithAiError");

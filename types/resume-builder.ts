@@ -4,6 +4,14 @@ export type FieldCategory = "it" | "other";
 
 export type ItFieldType = "developer" | "general";
 
+export type DeveloperSkillCategoryId = "backend" | "frontend" | "devops";
+
+export interface DeveloperSkillGroups {
+  backend: string[];
+  frontend: string[];
+  devops: string[];
+}
+
 export type TemplateId =
   | "german-ats"
   | "minimal"
@@ -93,6 +101,7 @@ export interface ResumeDocument {
   resumeType: ResumeType;
   fieldCategory: FieldCategory;
   itFieldType?: ItFieldType | null;
+  developerSkills?: DeveloperSkillGroups | null;
   templateId: TemplateId;
   theme: ResumeTheme;
   updatedAt: string;

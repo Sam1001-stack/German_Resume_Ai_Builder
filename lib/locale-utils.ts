@@ -28,6 +28,9 @@ export const openGraphLocaleMap: Record<Locale, string> = {
 const resumePreviewLabels = {
   summary: { en: "Summary", de: "Profil" },
   skills: { en: "Skills", de: "Fähigkeiten" },
+  skillBackend: { en: "Backend", de: "Backend" },
+  skillFrontend: { en: "Frontend", de: "Frontend" },
+  skillDevops: { en: "DevOps", de: "DevOps" },
   experience: { en: "Experience", de: "Berufserfahrung" },
   education: { en: "Education", de: "Ausbildung" },
   projects: { en: "Projects", de: "Projekte" },

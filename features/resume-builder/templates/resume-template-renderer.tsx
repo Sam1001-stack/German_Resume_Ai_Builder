@@ -5,6 +5,8 @@ import type { ResumeDocument, TemplateId } from "@/types/resume-builder";
 import { formatMonthYear } from "@/features/resume-builder/utils/format-date";
 import { resumePreviewLabel } from "@/lib/locale-utils";
 import { useLocale } from "next-intl";
+import { DeveloperSkillsPreview } from "@/features/resume-builder/components/developer-skills-preview";
+import { isDeveloperSkillsMode } from "@/features/resume-builder/utils/developer-skills-mode";
 
 interface Props {
   resume: ResumeDocument;
@@ -114,7 +116,7 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
         </section>
       )}
 
-      {resume.skills.length > 0 && (
+      {(resume.skills.length > 0 || isDeveloperSkillsMode(resume)) && (
         <section className="mt-5">
           <h2
             className="mb-2 text-xs font-bold uppercase tracking-widest"
@@ -122,7 +124,11 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
           >
             {resumePreviewLabel(locale, "skills")}
           </h2>
-          <p className="text-[11px] text-zinc-700">{resume.skills.join(" · ")}</p>
+          {isDeveloperSkillsMode(resume) ? (
+            <DeveloperSkillsPreview resume={resume} />
+          ) : (
+            <p className="text-[11px] text-zinc-700">{resume.skills.join(" · ")}</p>
+          )}
         </section>
       )}
 

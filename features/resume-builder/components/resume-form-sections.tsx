@@ -23,6 +23,9 @@ import { AiButton } from "./ai-button";
 import { useAiGeneration } from "@/hooks/use-ai-generation";
 import { SortableList } from "./sortable-list";
 import { TECH_SUGGESTIONS, LANGUAGE_LEVELS, SOCIAL_PLATFORMS } from "@/features/resume-builder/constants";
+import { countDeveloperSkills } from "@/features/resume-builder/constants/developer-skills";
+import { isDeveloperSkillsMode } from "@/features/resume-builder/utils/developer-skills-mode";
+import { DeveloperSkillsSection } from "./developer-skills-section";
 import { aiService } from "@/services/ai-service";
 import type {
   WorkExperience,
@@ -167,6 +170,11 @@ export function ResumeFormSections() {
     }
   };
 
+  const developerSkillsMode = isDeveloperSkillsMode(resume);
+  const skillsCount = developerSkillsMode
+    ? countDeveloperSkills(resume.developerSkills ?? { backend: [], frontend: [], devops: [] })
+    : resume.skills.length;
+
   if (!hydrated) {
     return (
       <div className="space-y-4 pb-24">
@@ -282,39 +290,47 @@ export function ResumeFormSections() {
         icon={<Wrench className="h-4 w-4" />}
         open={expanded.skills}
         onToggle={() => toggle("skills")}
-        badge={String(resume.skills.length)}
+        badge={String(skillsCount)}
       >
         <AiButton label={t("ai.generateSkills")} loading={isGenerating} onClick={handleAiSkills} />
-        <div className="mt-3 flex flex-wrap gap-2">
-          {resume.skills.map((skill) => (
-            <span
-              key={skill}
-              className="inline-flex items-center gap-1 rounded-full bg-violet-100 px-3 py-1 text-xs font-medium text-violet-800 dark:bg-violet-950 dark:text-violet-300"
-            >
-              {skill}
-              <button
-                type="button"
-                onClick={() => updateResume({ skills: resume.skills.filter((s) => s !== skill) })}
-                className="hover:text-red-600"
-                aria-label={`Remove ${skill}`}
-              >
-                ×
-              </button>
-            </span>
-          ))}
-        </div>
-        <div className="mt-3 flex flex-wrap gap-1">
-          {TECH_SUGGESTIONS.filter((s) => !resume.skills.includes(s)).slice(0, 8).map((s) => (
-            <button
-              key={s}
-              type="button"
-              onClick={() => addSkill(s)}
-              className="rounded-lg border border-dashed border-zinc-300 px-2 py-1 text-xs text-zinc-600 hover:border-violet-400 hover:text-violet-600 dark:border-zinc-700"
-            >
-              + {s}
-            </button>
-          ))}
-        </div>
+        {developerSkillsMode ? (
+          <div className="mt-3">
+            <DeveloperSkillsSection />
+          </div>
+        ) : (
+          <>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {resume.skills.map((skill) => (
+                <span
+                  key={skill}
+                  className="inline-flex items-center gap-1 rounded-full bg-violet-100 px-3 py-1 text-xs font-medium text-violet-800 dark:bg-violet-950 dark:text-violet-300"
+                >
+                  {skill}
+                  <button
+                    type="button"
+                    onClick={() => updateResume({ skills: resume.skills.filter((s) => s !== skill) })}
+                    className="hover:text-red-600"
+                    aria-label={`Remove ${skill}`}
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
+            <div className="mt-3 flex flex-wrap gap-1">
+              {TECH_SUGGESTIONS.filter((s) => !resume.skills.includes(s)).slice(0, 8).map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => addSkill(s)}
+                  className="rounded-lg border border-dashed border-zinc-300 px-2 py-1 text-xs text-zinc-600 hover:border-violet-400 hover:text-violet-600 dark:border-zinc-700"
+                >
+                  + {s}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
       </SectionCard>
 
       <SectionCard

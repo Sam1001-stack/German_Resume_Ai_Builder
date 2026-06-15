@@ -223,6 +223,12 @@ export const useResumeStore = create<ResumeStore>()(
               p.resume.fieldCategory === "other"
                 ? null
                 : p.resume.itFieldType ?? DEMO_RESUME.itFieldType ?? "developer",
+            developerSkills:
+              p.resume.fieldCategory === "it" &&
+              (p.resume.itFieldType ?? DEMO_RESUME.itFieldType) === "developer"
+                ? p.resume.developerSkills ??
+                  DEMO_RESUME.developerSkills ?? { backend: [], frontend: [], devops: [] }
+                : null,
           },
           savedResumes:
             p.savedResumes?.length ? p.savedResumes : current.savedResumes,
@@ -248,6 +254,16 @@ export const useResumeStore = create<ResumeStore>()(
         }
         if (state.resume.fieldCategory === "other") {
           state.resume.itFieldType = null;
+        }
+        if (
+          state.resume.fieldCategory === "it" &&
+          state.resume.itFieldType === "developer" &&
+          !state.resume.developerSkills
+        ) {
+          state.resume.developerSkills = { backend: [], frontend: [], devops: [] };
+        }
+        if (state.resume.fieldCategory === "other" || state.resume.itFieldType !== "developer") {
+          state.resume.developerSkills = null;
         }
         if (!state.resume.werkstudent) {
           state.resume.werkstudent = { ...DEMO_RESUME.werkstudent };

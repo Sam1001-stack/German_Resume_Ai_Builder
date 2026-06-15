@@ -25,6 +25,10 @@ export function normalizeResumeDocument(
       content.fieldCategory === "other"
         ? null
         : content.itFieldType ?? DEMO_RESUME.itFieldType ?? "developer",
+    developerSkills:
+      content.fieldCategory === "it" && (content.itFieldType ?? DEMO_RESUME.itFieldType) === "developer"
+        ? content.developerSkills ?? DEMO_RESUME.developerSkills ?? { backend: [], frontend: [], devops: [] }
+        : null,
     templateId: content.templateId ?? DEMO_RESUME.templateId,
     theme: { ...DEMO_RESUME.theme, ...(content.theme ?? {}) },
   };

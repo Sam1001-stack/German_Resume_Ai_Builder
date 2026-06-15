@@ -8,6 +8,11 @@ export function createEmptyResume(id?: string): ResumeDocument {
     resumeType: "professional",
     fieldCategory: "it",
     itFieldType: "developer",
+    developerSkills: {
+      backend: [],
+      frontend: [],
+      devops: [],
+    },
     templateId: "german-ats",
     theme: { primary: "#4f46e5", accent: "#6366f1" },
     updatedAt: new Date().toISOString(),
@@ -46,6 +51,11 @@ export const DEMO_RESUME: ResumeDocument = {
   resumeType: "professional",
   fieldCategory: "it",
   itFieldType: "developer",
+  developerSkills: {
+    backend: ["Node.js", "PostgreSQL"],
+    frontend: ["TypeScript", "React", "Next.js"],
+    devops: ["AWS", "Docker"],
+  },
   templateId: "german-ats",
   theme: { primary: "#312e81", accent: "#4f46e5" },
   updatedAt: new Date().toISOString(),
