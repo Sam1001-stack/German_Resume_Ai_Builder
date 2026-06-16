@@ -29,6 +29,30 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
     { label: resumePreviewLabel(locale, "enrollment"), value: werkstudent?.universityEnrollment ?? "" },
   ];
 
+  const isWerkstudent = resumeType === "werkstudent";
+
+  const sp = {
+    headerBorder: isWerkstudent ? "pb-2" : "pb-4",
+    nameSize: isWerkstudent ? "text-xl" : "text-2xl",
+    headlineSize: isWerkstudent ? "text-xs" : "text-sm",
+    sectionMt: isWerkstudent ? "mt-3" : "mt-5",
+    werkMt: isWerkstudent ? "mt-2" : "mt-4",
+    h2: isWerkstudent
+      ? "mb-1 text-[10px] font-bold uppercase tracking-wider"
+      : "mb-2 text-xs font-bold uppercase tracking-widest",
+    body: isWerkstudent ? "text-[10px] leading-snug" : "text-[11px] leading-relaxed",
+    small: isWerkstudent ? "text-[9px]" : "text-[10px]",
+    tiny: isWerkstudent ? "text-[8px]" : "text-[9px]",
+    expGap: isWerkstudent ? "space-y-2" : "space-y-4",
+    itemMb: isWerkstudent ? "mb-1" : "mb-2",
+    listMt: isWerkstudent ? "mt-0.5" : "mt-1",
+    contactGap: isWerkstudent ? "gap-0.5" : "gap-1",
+    contactText: isWerkstudent ? "text-[10px]" : "text-xs",
+    dualGridGap: isWerkstudent ? "gap-3" : "gap-4",
+    corpBarMb: isWerkstudent ? "mb-3" : "mb-6",
+    startupMb: isWerkstudent ? "mb-2" : "mb-4",
+  };
+
   const baseClass =
     "mx-auto bg-white text-zinc-900 shadow-2xl print:shadow-none";
   const a4Style = {
@@ -44,34 +68,33 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
   const content = (
     <>
       <header
-        className="border-b-2 pb-4"
+        className={`border-b-2 ${sp.headerBorder}`}
         style={{ borderColor: theme.primary }}
       >
-        <h1 className="text-2xl font-bold tracking-tight" style={{ color: theme.primary }}>
+        <h1 className={`${sp.nameSize} font-bold tracking-tight`} style={{ color: theme.primary }}>
           {fullName || "Your Name"}
         </h1>
         {personal.headline && (
-          <p className="mt-1 text-sm font-medium text-zinc-600">{personal.headline}</p>
+          <p className={`mt-0.5 ${sp.headlineSize} font-medium text-zinc-600`}>{personal.headline}</p>
         )}
         <p
-          className="mt-2 inline-block rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+          className="mt-1.5 inline-block rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
           style={{ backgroundColor: `${theme.primary}18`, color: theme.primary }}
         >
           {typeLabel}
         </p>
-        <div className="mt-2 flex flex-col gap-1 text-xs text-zinc-600">
-        
+        <div className={`mt-1.5 flex flex-col ${sp.contactGap} ${sp.contactText} text-zinc-600`}>
           {resume.socialLinks.length > 0 && (
-            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[10px] text-zinc-500">
+            <div className={`grid grid-cols-2 gap-x-3 gap-y-0.5 ${sp.tiny} text-zinc-500`}>
               {resume.socialLinks.map((s) => (
-                <span key={s.id}>
-                  <b>{s.platform}:</b> <a href={s.url} target="_blank" rel="noopener noreferrer">{s.url}</a>
+                <span key={s.id} className="truncate">
+                  <b>{s.platform}:</b> {s.url.replace(/^https?:\/\//, "")}
                 </span>
               ))}
             </div>
           )}
-          <div className="flex flex-wrap gap-x-4 gap-y-1">
-            {personal.email && <span>{personal.email} </span>}
+          <div className="flex flex-wrap gap-x-3 gap-y-0.5">
+            {personal.email && <span>{personal.email}</span>}
             {personal.phone && <span>{personal.phone}</span>}
           </div>
           {locationLine && <span>{locationLine}</span>}
@@ -83,82 +106,72 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
         </div>
       </header>
 
-      {resumeType === "werkstudent" && (
-        <section className="mt-4">
-          <h2
-            className="mb-2 text-xs font-bold uppercase tracking-widest"
-            style={{ color: theme.primary }}
-          >
+      {isWerkstudent && (
+        <section className={sp.werkMt}>
+          <h2 className={sp.h2} style={{ color: theme.primary }}>
             {resumePreviewLabel(locale, "werkstudent")}
           </h2>
-          <dl className="space-y-1 text-[10px] text-zinc-700">
+          <div className={`grid grid-cols-1 gap-x-4 gap-y-0.5 sm:grid-cols-3 ${sp.small} text-zinc-700`}>
             {werkstudentRows.map((row) => (
-              <div key={row.label} className="flex gap-2">
-                <dt className="min-w-[7rem] shrink-0 font-semibold text-zinc-600">{row.label}:</dt>
-                <dd className={row.value.trim() ? "" : "text-zinc-400 italic"}>
+              <div key={row.label} className="min-w-0">
+                <span className="font-semibold text-zinc-600">{row.label}: </span>
+                <span className={row.value.trim() ? "" : "italic text-zinc-400"}>
                   {row.value.trim() || "—"}
-                </dd>
+                </span>
               </div>
             ))}
-          </dl>
+          </div>
         </section>
       )}
 
       {resume.summary && (
-        <section className="mt-5">
-          <h2
-            className="mb-2 text-xs font-bold uppercase tracking-widest"
-            style={{ color: theme.primary }}
-          >
+        <section className={sp.sectionMt}>
+          <h2 className={sp.h2} style={{ color: theme.primary }}>
             {resumePreviewLabel(locale, "summary")}
           </h2>
-          <p className="text-[11px] leading-relaxed text-zinc-700">{resume.summary}</p>
+          <p className={`${sp.body} text-zinc-700`}>{resume.summary}</p>
         </section>
       )}
 
       {(resume.skills.length > 0 || isDeveloperSkillsMode(resume)) && (
-        <section className="mt-5">
-          <h2
-            className="mb-2 text-xs font-bold uppercase tracking-widest"
-            style={{ color: theme.primary }}
-          >
+        <section className={sp.sectionMt}>
+          <h2 className={sp.h2} style={{ color: theme.primary }}>
             {resumePreviewLabel(locale, "skills")}
           </h2>
           {isDeveloperSkillsMode(resume) ? (
-            <DeveloperSkillsPreview resume={resume} />
+            <div className={isWerkstudent ? "space-y-1.5" : "space-y-2.5"}>
+              <DeveloperSkillsPreview resume={resume} compact={isWerkstudent} />
+            </div>
           ) : (
-            <p className="text-[11px] text-zinc-700">{resume.skills.join(" · ")}</p>
+            <p className={`${sp.body} text-zinc-700`}>{resume.skills.join(" · ")}</p>
           )}
         </section>
       )}
 
       {resume.experience.length > 0 && (
-        <section className="mt-5">
-          <h2
-            className="mb-2 text-xs font-bold uppercase tracking-widest"
-            style={{ color: theme.primary }}
-          >
+        <section className={sp.sectionMt}>
+          <h2 className={sp.h2} style={{ color: theme.primary }}>
             {resumePreviewLabel(locale, "experience")}
           </h2>
-          <div className="space-y-4">
+          <div className={sp.expGap}>
             {resume.experience.map((exp) => (
               <div key={exp.id}>
                 <div className="flex justify-between gap-2">
                   <div>
-                    <p className="text-[11px] font-semibold">{exp.position}</p>
-                    <p className="text-[10px] text-zinc-600">
+                    <p className={`${sp.body} font-semibold`}>{exp.position}</p>
+                    <p className={`${sp.small} text-zinc-600`}>
                       {exp.company}
                       {exp.location ? ` · ${exp.location}` : ""}
                     </p>
                   </div>
-                  <p className="shrink-0 text-[10px] text-zinc-500">
+                  <p className={`shrink-0 ${sp.small} text-zinc-500`}>
                     {dateFmt(exp.startDate)}
                     {" – "}
                     {exp.current ? resumePreviewLabel(locale, "present") : dateFmt(exp.endDate)}
                   </p>
                 </div>
                 {exp.bullets.length > 0 && (
-                  <ul className="mt-1 list-disc pl-4 text-[10px] leading-relaxed text-zinc-700">
+                  <ul className={`${sp.listMt} list-disc pl-4 ${sp.small} leading-snug text-zinc-700`}>
                     {exp.bullets.map((b, i) => (
                       <li key={i}>{b}</li>
                     ))}
@@ -171,11 +184,8 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
       )}
 
       {resume.education.length > 0 && (
-        <section className="mt-5">
-          <h2
-            className="mb-2 text-xs font-bold uppercase tracking-widest"
-            style={{ color: theme.primary }}
-          >
+        <section className={sp.sectionMt}>
+          <h2 className={sp.h2} style={{ color: theme.primary }}>
             {resumePreviewLabel(locale, "education")}
           </h2>
           {resume.education.map((edu) => {
@@ -184,11 +194,11 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
             const dateRange = start && end ? `${start} – ${end}` : start || end || "";
 
             return (
-            <div key={edu.id} className="mb-2">
-              <p className="text-[11px] font-semibold">
+            <div key={edu.id} className={sp.itemMb}>
+              <p className={`${sp.body} font-semibold`}>
                 {edu.degree} {edu.field && `— ${edu.field}`}
               </p>
-              <p className="text-[10px] text-zinc-600">
+              <p className={`${sp.small} text-zinc-600`}>
                 {edu.institution}
                 {dateRange ? ` · ${dateRange}` : ""}
               </p>
@@ -199,11 +209,8 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
       )}
 
       {resume.projects.length > 0 && (
-        <section className="mt-5">
-          <h2
-            className="mb-2 text-xs font-bold uppercase tracking-widest"
-            style={{ color: theme.primary }}
-          >
+        <section className={sp.sectionMt}>
+          <h2 className={sp.h2} style={{ color: theme.primary }}>
             {resumePreviewLabel(locale, "projects")}
           </h2>
           {resume.projects.map((p) => {
@@ -212,21 +219,21 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
               .map((line) => line.trim())
               .filter(Boolean);
             return (
-            <div key={p.id} className="mb-2">
-              <p className="text-[11px] font-semibold">{p.name}</p>
+            <div key={p.id} className={sp.itemMb}>
+              <p className={`${sp.body} font-semibold`}>{p.name}</p>
               {descriptionLines.length > 1 ? (
-                <ul className="mt-1 list-disc pl-4 text-[10px] leading-relaxed text-zinc-700">
+                <ul className={`${sp.listMt} list-disc pl-4 ${sp.small} leading-snug text-zinc-700`}>
                   {descriptionLines.map((line, i) => (
                     <li key={i}>{line}</li>
                   ))}
                 </ul>
               ) : (
                 p.description && (
-                  <p className="text-[10px] text-zinc-700">{p.description}</p>
+                  <p className={`${sp.small} text-zinc-700`}>{p.description}</p>
                 )
               )}
               {p.technologies.length > 0 && (
-                <p className="text-[9px] text-zinc-500">{p.technologies.join(", ")}</p>
+                <p className={`${sp.tiny} text-zinc-500`}>{p.technologies.join(", ")}</p>
               )}
             </div>
             );
@@ -235,17 +242,14 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
       )}
 
       {(resume.languages.length > 0 || resume.certifications.length > 0) && (
-        <section className="mt-5 grid grid-cols-2 gap-4">
+        <section className={`${sp.sectionMt} grid grid-cols-2 ${sp.dualGridGap}`}>
           {resume.languages.length > 0 && (
             <div>
-              <h2
-                className="mb-2 text-xs font-bold uppercase tracking-widest"
-                style={{ color: theme.primary }}
-              >
+              <h2 className={sp.h2} style={{ color: theme.primary }}>
                 {resumePreviewLabel(locale, "languages")}
               </h2>
               {resume.languages.map((l) => (
-                <p key={l.id} className="text-[10px]">
+                <p key={l.id} className={sp.small}>
                   {l.name} — {l.level}
                 </p>
               ))}
@@ -253,14 +257,11 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
           )}
           {resume.certifications.length > 0 && (
             <div>
-              <h2
-                className="mb-2 text-xs font-bold uppercase tracking-widest"
-                style={{ color: theme.primary }}
-              >
+              <h2 className={sp.h2} style={{ color: theme.primary }}>
                 {resumePreviewLabel(locale, "certifications")}
               </h2>
               {resume.certifications.map((c) => (
-                <p key={c.id} className="text-[10px]">
+                <p key={c.id} className={sp.small}>
                   {c.name} — {c.issuer}
                 </p>
               ))}
@@ -273,11 +274,11 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
   );
 
   const templateStyles: Record<TemplateId, string> = {
-    "german-ats": "p-10 font-[family-name:var(--font-inter)]",
-    minimal: "p-12 font-light",
-    corporate: "p-10 bg-zinc-50",
-    creative: "p-8 border-l-8",
-    startup: "p-10 rounded-sm",
+    "german-ats": isWerkstudent ? "p-7 font-[family-name:var(--font-inter)]" : "p-10 font-[family-name:var(--font-inter)]",
+    minimal: isWerkstudent ? "p-9 font-light" : "p-12 font-light",
+    corporate: isWerkstudent ? "p-7 bg-zinc-50" : "p-10 bg-zinc-50",
+    creative: isWerkstudent ? "p-6 border-l-8" : "p-8 border-l-8",
+    startup: isWerkstudent ? "p-7 rounded-sm" : "p-10 rounded-sm",
   };
 
   const creativeBorder = templateId === "creative" ? { borderLeftColor: theme.primary } : {};
@@ -293,12 +294,12 @@ export function ResumeTemplateRenderer({ resume, scale = 1 }: Props) {
     >
       {templateId === "corporate" && (
         <div
-          className="mb-6 h-1 w-16 rounded"
+          className={`${sp.corpBarMb} h-1 w-16 rounded`}
           style={{ backgroundColor: theme.primary }}
         />
       )}
       {templateId === "startup" && (
-        <div className="mb-4 flex items-center gap-2">
+        <div className={`${sp.startupMb} flex items-center gap-2`}>
           <div
             className="h-2 w-2 rounded-full"
             style={{ backgroundColor: theme.accent }}

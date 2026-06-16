@@ -18,6 +18,7 @@ const categories: {
 
 interface Props {
   resume: ResumeDocument;
+  compact?: boolean;
 }
 
 function renderSkillLine(skills: string[], categoryId: DeveloperSkillCategoryId) {
@@ -32,7 +33,7 @@ function renderSkillLine(skills: string[], categoryId: DeveloperSkillCategoryId)
   });
 }
 
-export function DeveloperSkillsPreview({ resume }: Props) {
+export function DeveloperSkillsPreview({ resume, compact = false }: Props) {
   const locale = useLocale();
   if (!isDeveloperSkillsMode(resume) || !resume.developerSkills) return null;
 
@@ -41,7 +42,7 @@ export function DeveloperSkillsPreview({ resume }: Props) {
   if (!hasSkills) return null;
 
   return (
-    <div className="space-y-2.5">
+    <div className={compact ? "space-y-1" : "space-y-2.5"}>
       {categories.map((category) => {
         const skills = groups[category.id];
         if (!skills.length) return null;
@@ -49,12 +50,18 @@ export function DeveloperSkillsPreview({ resume }: Props) {
         return (
           <div key={category.id}>
             <p
-              className="mb-0.5 text-[10px] font-bold uppercase tracking-wide"
+              className={
+                compact
+                  ? "mb-0 text-[9px] font-bold uppercase tracking-wide"
+                  : "mb-0.5 text-[10px] font-bold uppercase tracking-wide"
+              }
               style={{ color: category.color }}
             >
               {resumePreviewLabel(locale, category.labelKey)}
             </p>
-            <p className="text-[11px] text-zinc-700">{renderSkillLine(skills, category.id)}</p>
+            <p className={compact ? "text-[9px] leading-snug text-zinc-700" : "text-[11px] text-zinc-700"}>
+              {renderSkillLine(skills, category.id)}
+            </p>
           </div>
         );
       })}
